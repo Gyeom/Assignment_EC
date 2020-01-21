@@ -35,10 +35,10 @@ public class FmVdLinear extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.fm_vd_linear,container,false);
+        View v =inflater.inflate(R.layout.fm_recycler,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.recycler_vd_linear) ;
+        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.recycler) ;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 

@@ -23,6 +23,7 @@ public class FmMain extends Fragment {
 
     private Button btn_vd_grid, btn_vd_linear;
     private Button btn_img_grid, btn_img_linear;
+    private Button btn_all_grid, btn_all_linear;
 
     @Nullable
     @Override
@@ -33,9 +34,11 @@ public class FmMain extends Fragment {
         btn_vd_linear = (Button)v.findViewById(R.id.btn_vd_linear);
         btn_img_grid = (Button)v.findViewById(R.id.btn_img_grid);
         btn_img_linear = (Button)v.findViewById(R.id.btn_img_linear);
-
+        btn_all_grid = (Button)v.findViewById(R.id.btn_all_grid);
+        btn_all_linear = (Button)v.findViewById(R.id.btn_all_linear);
         showLayout(btn_vd_linear);
         showLayout(btn_img_linear);
+        showLayout(btn_all_linear);
 
         //Button Listener
         btn_vd_linear.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +65,18 @@ public class FmMain extends Fragment {
                 showLayout(v);
             }
         });
-
+        btn_all_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLayout(v);
+            }
+        });
+        btn_all_grid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLayout(v);
+            }
+        });
         return v;
     }
 
@@ -79,7 +93,10 @@ public class FmMain extends Fragment {
                 break;
             case R.id.btn_img_grid: tran.replace(R.id.container_image, FmImgGrid.newInstance());
             break;
-
+            case R.id.btn_all_linear: tran.replace(R.id.container_alldata, FmAllLinear.newInstance());
+                break;
+            case R.id.btn_all_grid: tran.replace(R.id.container_alldata, FmAllGrid.newInstance());
+                break;
         }
         tran.commit();
     }

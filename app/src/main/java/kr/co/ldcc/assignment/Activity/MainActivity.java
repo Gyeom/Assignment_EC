@@ -1,6 +1,7 @@
 package kr.co.ldcc.assignment.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
 import kr.co.ldcc.assignment.Adapter.ImageAdapter;
 import kr.co.ldcc.assignment.Vo.ImageVo;
 import kr.co.ldcc.assignment.R;
@@ -40,13 +42,16 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout layout_container;
     private ArrayList<VideoVo> videoData_list;
     private ArrayList<ImageVo> imageData_list;
+    private ArrayList<Object> allData_list;
     public static VideoAdapter videoAdapter;
     public static ImageAdapter imageAdapter;
+    public static AllDataAdapter allDataAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Contents List");
+        setTitle("컨텐츠 목록");
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -84,14 +89,59 @@ public class MainActivity extends AppCompatActivity {
 
         layout_container = (LinearLayout)findViewById(R.id.layout_container);
         layout_container.setVisibility(View.INVISIBLE);
+
     }
+    boolean isExecutingVD=false;
+    boolean isExecutingIMG=false;
 
     public void searchBtnClickListener(View view){
+
         layout_container.setVisibility(View.VISIBLE);
         VideoSearchAPI videoSearch = new VideoSearchAPI(searchText.getText().toString());
         ImageSearchAPI imageSearch = new ImageSearchAPI(searchText.getText().toString());
+
+        allData_list = new ArrayList<Object>();
+        // Thread Control
+        isExecutingVD=true;
         videoSearch.start();
+        isExecutingIMG = true;
         imageSearch.start();
+        while(isExecutingIMG||isExecutingVD){}
+
+        Log.d("test",allData_list.size()+" ");
+        Collections.sort(allData_list, new Comparator<Object>() {
+                    @Override
+                    public int compare(Object o1, Object o2) {
+                        String datetime_o1=null;
+                        String datetime_o2=null;
+                        if(o1.getClass()==ImageVo.class){
+                            datetime_o1=((ImageVo)o1).getDatetime();
+                        }else if(o1.getClass()==VideoVo.class){
+                            datetime_o1=((VideoVo)o1).getDatetime();
+                        }
+                        if(o2.getClass()==ImageVo.class){
+                            datetime_o2=((ImageVo)o2).getDatetime();
+                        }else if(o2.getClass()==VideoVo.class){
+                            datetime_o2=((VideoVo)o2).getDatetime();
+                        }
+                        return -1*(datetime_o1.compareTo(datetime_o2));
+                    }
+                });
+
+        for(Object obj : allData_list){
+            if(obj.getClass()==VideoVo.class){
+                Log.d("test",((VideoVo)obj).getDatetime()+"");
+            }else if(obj.getClass()==ImageVo.class){
+                Log.d("test",((ImageVo)obj).getDatetime()+"");
+            }
+        }
+        if(allDataAdapter==null){
+            allDataAdapter= new AllDataAdapter(allData_list);
+        }else{
+            allDataAdapter.setAllDataList(allData_list);
+        }
+        allDataAdapter.notifyDataSetChanged();
+
     }
     public class ImageSearchAPI extends Thread{
         String keyword;
@@ -138,13 +188,19 @@ public class MainActivity extends AppCompatActivity {
                 while (index < jsonArray.length()) {
                     ImageVo imageData =  gson.fromJson(jsonArray.get(index).toString(), ImageVo.class);
                     imageData_list.add(imageData);
+                    allData_list.add(imageData);
                     index++;
                 }
-
+                Collections.sort(imageData_list, new Comparator<ImageVo>() {
+                    @Override
+                    public int compare(ImageVo o1, ImageVo o2) {
+                        return -1*o1.getDatetime().compareTo(o2.getDatetime());
+                    }
+                });
                 if(imageAdapter==null){
                     imageAdapter= new ImageAdapter(imageData_list);
                 }else{
-                    imageAdapter.setmData(imageData_list);
+                    imageAdapter.setImgList(imageData_list);
                 }
 
                 // UI를 제어하기 위해서 사용
@@ -157,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            isExecutingIMG = false;
         }
 
     }
@@ -170,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+
             Gson gson = new Gson();
             try{
                 String address = "https://dapi.kakao.com/v2/search/vclip?query="+keyword;
@@ -206,19 +264,24 @@ public class MainActivity extends AppCompatActivity {
                 while (index < jsonArray.length()) {
                     VideoVo videoData =  gson.fromJson(jsonArray.get(index).toString(), VideoVo.class);
                     videoData_list.add(videoData);
+                    allData_list.add(videoData);
                     index++;
                 }
+
+                Collections.sort(videoData_list, new Comparator<VideoVo>() {
+                    @Override
+                    public int compare(VideoVo o1, VideoVo o2) { return -1*o1.getDatetime().compareTo(o2.getDatetime());
+                    } });
 
                     if(videoAdapter==null){
                         videoAdapter= new VideoAdapter(videoData_list);
                     }else{
-                        Collections.sort(videoData_list, new Comparator<VideoVo>() {
-                            @Override
-                            public int compare(VideoVo b1, VideoVo b2) { return b1.getDatetime().compareTo(b2.getDatetime());
-                            } });
-
                         videoAdapter.setmData(videoData_list);
                     }
+
+//                    for(VideoVo videoVo : videoData_list){
+//                        Log.d("test",videoVo.getDatetime());
+//                    }
 
                 // UI를 제어하기 위해서 사용
                 runOnUiThread(new Runnable() {
@@ -230,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
+            isExecutingVD=false;
         }
     }
 }

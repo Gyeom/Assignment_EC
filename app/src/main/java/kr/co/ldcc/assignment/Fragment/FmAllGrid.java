@@ -12,22 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import kr.co.ldcc.assignment.R;
+import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
 import kr.co.ldcc.assignment.Adapter.VideoAdapter;
+import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Vo.VideoVo;
 
+import static kr.co.ldcc.assignment.Activity.MainActivity.allDataAdapter;
 import static kr.co.ldcc.assignment.Activity.MainActivity.videoAdapter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FmVdGrid extends Fragment {
+public class FmAllGrid extends Fragment {
 
-    public static FmVdGrid newInstance() {
-        return new FmVdGrid();
+    public static FmAllGrid newInstance() {
+        return new FmAllGrid();
     }
-    public FmVdGrid() {
+    public FmAllGrid() {
         // Required empty public constructor
     }
 
@@ -43,10 +45,10 @@ public class FmVdGrid extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         // 리사이클러뷰에 VideoAdapter 객체 지정.
-        if(videoAdapter==null){
-            videoAdapter= new VideoAdapter(new ArrayList<VideoVo>());
+        if(allDataAdapter==null){
+            allDataAdapter= new AllDataAdapter(new ArrayList<Object>());
         }
-        recyclerView.setAdapter(videoAdapter) ;
+        recyclerView.setAdapter(allDataAdapter) ;
         return v;
     }
 }

@@ -18,8 +18,8 @@ import kr.co.ldcc.assignment.Vo.VideoVo;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
-    private ArrayList<VideoVo> mData = null ;
-
+    private ArrayList<VideoVo> vdList = null ;
+    
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_title;
@@ -36,7 +36,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
     public VideoAdapter(ArrayList<VideoVo> list) {
-        mData = list ;
+        vdList = list ;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -54,8 +54,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
-        String title = mData.get(position).getTitle() ;
-        String thumbnail = mData.get(position).getThumbnail();
+        String title = vdList.get(position).getTitle() ;
+        String thumbnail = vdList.get(position).getThumbnail();
         Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
         holder.tv_title.setText(title) ;
     }
@@ -63,14 +63,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return mData.size() ;
+        return vdList.size() ;
     }
     public ArrayList<VideoVo> getmData() {
-        return mData;
+        return vdList;
     }
 
     public void setmData(ArrayList<VideoVo> mData) {
-        this.mData = mData;
+        this.vdList = mData;
     }
 
 }

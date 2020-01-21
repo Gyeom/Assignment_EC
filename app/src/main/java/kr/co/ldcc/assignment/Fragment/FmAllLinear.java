@@ -12,23 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
 import kr.co.ldcc.assignment.Adapter.ImageAdapter;
-import kr.co.ldcc.assignment.Vo.ImageVo;
 import kr.co.ldcc.assignment.R;
+import kr.co.ldcc.assignment.Vo.ImageVo;
 
+import static kr.co.ldcc.assignment.Activity.MainActivity.allDataAdapter;
 import static kr.co.ldcc.assignment.Activity.MainActivity.imageAdapter;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FmImgLinear extends Fragment {
+public class FmAllLinear extends Fragment {
 
-    public static FmImgLinear newInstance()
+    public static FmAllLinear newInstance()
     {
-        return new FmImgLinear();
+        return new FmAllLinear();
     }
-    public FmImgLinear() {
+    public FmAllLinear() {
         // Required empty public constructor
     }
 
@@ -45,10 +47,10 @@ public class FmImgLinear extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager) ;
 
         // 리사이클러뷰에 VideoAdapter 객체 지정.
-        if(imageAdapter==null){
-            imageAdapter= new ImageAdapter(new ArrayList<ImageVo>()) ;
+        if(allDataAdapter==null){
+            allDataAdapter= new AllDataAdapter(new ArrayList<Object>()) ;
         }
-        recyclerView.setAdapter(imageAdapter) ;
+        recyclerView.setAdapter(allDataAdapter) ;
         return v;
     }
 
