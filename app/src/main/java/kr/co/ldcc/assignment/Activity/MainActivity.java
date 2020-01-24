@@ -1,17 +1,29 @@
 package kr.co.ldcc.assignment.Activity;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,11 +60,21 @@ public class MainActivity extends AppCompatActivity {
     public static ImageAdapter imageAdapter;
     public static AllDataAdapter allDataAdapter;
 
+    // Thread Control
+    boolean isExecutingVD=false;
+    boolean isExecutingIMG=false;
+    String strNickname;
+    String strProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("컨텐츠 목록");
+
+        // UserInfo
+        Intent intent = getIntent();
+        strNickname = intent.getStringExtra("name");
+        strProfile = intent.getStringExtra("profile");
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -89,10 +112,54 @@ public class MainActivity extends AppCompatActivity {
 
         layout_container = (LinearLayout)findViewById(R.id.layout_container);
         layout_container.setVisibility(View.INVISIBLE);
+        getAppKeyHash();
 
     }
-    boolean isExecutingVD=false;
-    boolean isExecutingIMG=false;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.logoutBtn:
+                Toast.makeText(getApplicationContext(), "정상적으로 로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
+
+                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void getAppKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("Hash key", something);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.e("name not found", e.toString());
+        }
+    }
+
 
     public void searchBtnClickListener(View view){
 
@@ -143,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         allDataAdapter.notifyDataSetChanged();
 
     }
+
     public class ImageSearchAPI extends Thread{
         String keyword;
         public ImageSearchAPI(String keyword){
@@ -217,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     public class VideoSearchAPI extends Thread{
         String keyword;
 
