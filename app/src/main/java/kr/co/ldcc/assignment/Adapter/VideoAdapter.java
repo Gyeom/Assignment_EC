@@ -1,6 +1,7 @@
 package kr.co.ldcc.assignment.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,19 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import kr.co.ldcc.assignment.Activity.VideoActivity;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Vo.VideoVo;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
     private ArrayList<VideoVo> vdList = null ;
-    
+    String title;
+    String thumbnail;
+    String url;
+
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_title;
@@ -31,6 +38,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             // 뷰 객체에 대한 참조. (hold strong reference)
             tv_title = itemView.findViewById(R.id.vd_title) ;
             iv_thumbnail = itemView.findViewById(R.id.vd_thumbnail);
+
         }
     }
 
@@ -54,10 +62,23 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
-        String title = vdList.get(position).getTitle() ;
-        String thumbnail = vdList.get(position).getThumbnail();
+        title = vdList.get(position).getTitle() ;
+        thumbnail = vdList.get(position).getThumbnail();
+        url = vdList.get(position).getUrl();
         Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
         holder.tv_title.setText(title) ;
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), VideoActivity.class);
+//                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("url",url);
+                intent.putExtra("title",title);
+                intent.putExtra("thumbnail",thumbnail);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
