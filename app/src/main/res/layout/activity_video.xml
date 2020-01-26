@@ -12,4 +12,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/writeBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/btn_write"
+                android:onClick="writeBtnListener" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:onClick="writeBtnListener"
+                android:text="댓글쓰기"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#FFC107"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="댓글"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cmtNumText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:text="(3)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#FF0000"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>
