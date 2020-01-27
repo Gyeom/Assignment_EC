@@ -1,6 +1,9 @@
 package kr.co.ldcc.assignment.Vo;
 
-public class ImageVo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ImageVo implements Parcelable {
     String collection;
     String thumbnail_url;
     String image_url;
@@ -84,4 +87,44 @@ public class ImageVo {
     public void setDatetime(String datetime) {
         this.datetime = datetime;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.collection);
+        dest.writeString(this.thumbnail_url);
+        dest.writeString(this.image_url);
+        dest.writeInt(this.width);
+        dest.writeInt(this.height);
+        dest.writeString(this.display_sitename);
+        dest.writeString(this.doc_url);
+        dest.writeString(this.datetime);
+    }
+
+    protected ImageVo(Parcel in) {
+        this.collection = in.readString();
+        this.thumbnail_url = in.readString();
+        this.image_url = in.readString();
+        this.width = in.readInt();
+        this.height = in.readInt();
+        this.display_sitename = in.readString();
+        this.doc_url = in.readString();
+        this.datetime = in.readString();
+    }
+
+    public static final Parcelable.Creator<ImageVo> CREATOR = new Parcelable.Creator<ImageVo>() {
+        @Override
+        public ImageVo createFromParcel(Parcel source) {
+            return new ImageVo(source);
+        }
+
+        @Override
+        public ImageVo[] newArray(int size) {
+            return new ImageVo[size];
+        }
+    };
 }

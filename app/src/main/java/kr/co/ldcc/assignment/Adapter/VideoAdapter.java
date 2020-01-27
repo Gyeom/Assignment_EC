@@ -62,9 +62,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
-        title = vdList.get(position).getTitle() ;
-        thumbnail = vdList.get(position).getThumbnail();
-        url = vdList.get(position).getUrl();
+        final VideoVo videoVo = vdList.get(position);
+        title = videoVo.getTitle() ;
+        thumbnail = videoVo.getThumbnail();
+        url = videoVo.getUrl();
         Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
         holder.tv_title.setText(title) ;
 
@@ -72,10 +73,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), VideoActivity.class);
+                intent.putExtra("videoVo",videoVo);
 //                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("url",url);
-                intent.putExtra("title",title);
-                intent.putExtra("thumbnail",thumbnail);
+//                intent.putExtra("url",url);
+//                intent.putExtra("title",title);
+//                intent.putExtra("thumbnail",thumbnail);
                 v.getContext().startActivity(intent);
             }
         });

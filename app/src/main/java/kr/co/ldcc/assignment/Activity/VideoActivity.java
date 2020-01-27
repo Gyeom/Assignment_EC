@@ -14,6 +14,7 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import kr.co.ldcc.assignment.R;
+import kr.co.ldcc.assignment.Vo.VideoVo;
 
 public class VideoActivity extends YouTubeBaseActivity {
     YouTubePlayerView youtubeView;
@@ -29,9 +30,10 @@ public class VideoActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_video);
 
         Intent intent = getIntent();
-        title = intent.getStringExtra("title");
-        thumbnail = intent.getStringExtra("thumbnail");
-        url = intent.getStringExtra("url");
+        VideoVo videoVo = intent.getParcelableExtra("videoVo");
+        title = videoVo.getTitle();
+        thumbnail = videoVo.getThumbnail();
+        url = videoVo.getUrl();
         Log.d("test",url.substring(url.lastIndexOf("v=")));
         id = url.substring(url.lastIndexOf("v=")+2);
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);

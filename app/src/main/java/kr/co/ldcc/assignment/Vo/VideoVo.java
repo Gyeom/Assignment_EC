@@ -1,6 +1,9 @@
 package kr.co.ldcc.assignment.Vo;
 
-public class VideoVo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class VideoVo implements Parcelable {
     String title;
     int play_time;
     String thumbnail;
@@ -91,4 +94,40 @@ public class VideoVo {
                 ", author='" + author + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeInt(this.play_time);
+        dest.writeString(this.thumbnail);
+        dest.writeString(this.url);
+        dest.writeString(this.datetime);
+        dest.writeString(this.author);
+    }
+
+    protected VideoVo(Parcel in) {
+        this.title = in.readString();
+        this.play_time = in.readInt();
+        this.thumbnail = in.readString();
+        this.url = in.readString();
+        this.datetime = in.readString();
+        this.author = in.readString();
+    }
+
+    public static final Parcelable.Creator<VideoVo> CREATOR = new Parcelable.Creator<VideoVo>() {
+        @Override
+        public VideoVo createFromParcel(Parcel source) {
+            return new VideoVo(source);
+        }
+
+        @Override
+        public VideoVo[] newArray(int size) {
+            return new VideoVo[size];
+        }
+    };
 }
