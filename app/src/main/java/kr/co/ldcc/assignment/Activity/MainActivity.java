@@ -60,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public static ImageAdapter imageAdapter;
     public static AllDataAdapter allDataAdapter;
 
-    // Thread Control
-    boolean isExecutingVD=false;
-    boolean isExecutingIMG=false;
+
     String strNickname;
     String strProfile;
     @Override
@@ -168,13 +166,18 @@ public class MainActivity extends AppCompatActivity {
         ImageSearchAPI imageSearch = new ImageSearchAPI(searchText.getText().toString());
 
         allData_list = new ArrayList<Object>();
-        // Thread Control
-        isExecutingVD=true;
-        videoSearch.start();
-        isExecutingIMG = true;
-        imageSearch.start();
-        while(isExecutingIMG||isExecutingVD){}
 
+
+        videoSearch.start();
+        imageSearch.start();
+
+        // Thread Control
+        try {
+            videoSearch.join();
+            imageSearch.join();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         Log.d("test",allData_list.size()+" ");
         Collections.sort(allData_list, new Comparator<Object>() {
                     @Override
@@ -281,7 +284,6 @@ public class MainActivity extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            isExecutingIMG = false;
         }
 
     }
@@ -362,7 +364,6 @@ public class MainActivity extends AppCompatActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
-            isExecutingVD=false;
         }
     }
 }
