@@ -24,6 +24,20 @@ public class ImageVo implements Parcelable {
         this.datetime = datetime;
     }
 
+    @Override
+    public String toString() {
+        return "ImageVo{" +
+                "collection='" + collection + '\'' +
+                ", thumbnail_url='" + thumbnail_url + '\'' +
+                ", image_url='" + image_url + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", display_sitename='" + display_sitename + '\'' +
+                ", doc_url='" + doc_url + '\'' +
+                ", datetime='" + datetime + '\'' +
+                '}';
+    }
+
     public String getCollection() {
         return collection;
     }

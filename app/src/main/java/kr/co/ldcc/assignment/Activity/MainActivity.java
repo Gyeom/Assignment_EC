@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     public static AllDataAdapter allDataAdapter;
 
 
-    String strNickname;
-    String strProfile;
+    String user;
+    String profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         // UserInfo
         Intent intent = getIntent();
-        strNickname = intent.getStringExtra("name");
-        strProfile = intent.getStringExtra("profile");
+        user = intent.getStringExtra("name");
+        profile = intent.getStringExtra("profile");
 
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -345,9 +345,11 @@ public class MainActivity extends AppCompatActivity {
                     } });
 
                     if(videoAdapter==null){
-                        videoAdapter= new VideoAdapter(videoData_list);
+                        videoAdapter= new VideoAdapter(videoData_list,user, profile);
                     }else{
                         videoAdapter.setmData(videoData_list);
+                        videoAdapter.setUser(user);
+                        videoAdapter.setProfile(profile);
                     }
 
 //                    for(VideoVo videoVo : videoData_list){

@@ -2,6 +2,7 @@ package kr.co.ldcc.assignment.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(MeV2Response result) {
+                    Log.d("test",result.getId()+"");
+                    Log.d("test",result.getKakaoAccount().getEmail()+"");
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("name", result.getNickname());
                     intent.putExtra("profile", result.getProfileImagePath());

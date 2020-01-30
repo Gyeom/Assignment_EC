@@ -26,6 +26,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     String title;
     String thumbnail;
     String url;
+    String user;
+    String profile;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,9 +45,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
+    public VideoAdapter(ArrayList<VideoVo> list,String user,String profile) {
+        vdList = list ;
+        this.user = user;
+        this.profile = profile;
+    }
     public VideoAdapter(ArrayList<VideoVo> list) {
         vdList = list ;
     }
+
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
@@ -74,10 +82,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), VideoActivity.class);
                 intent.putExtra("videoVo",videoVo);
+
+
+//                intent.putExtra("user",)
 //                intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.putExtra("url",url);
 //                intent.putExtra("title",title);
 //                intent.putExtra("thumbnail",thumbnail);
+                intent.putExtra("user",user);
+                intent.putExtra("profile",profile);
                 v.getContext().startActivity(intent);
             }
         });
@@ -96,4 +109,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         this.vdList = mData;
     }
 
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
 }
