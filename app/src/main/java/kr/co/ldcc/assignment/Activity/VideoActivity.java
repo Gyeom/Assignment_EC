@@ -1,6 +1,7 @@
 package kr.co.ldcc.assignment.Activity;
 
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -54,6 +55,8 @@ public class VideoActivity extends YouTubeBaseActivity{
     AppDatabase db=null;
     YouTubePlayer.OnInitializedListener listener;
 
+    //Reply
+    TextView tv_replyCount;
     //recyclerView
     ArrayList<ReplyVo> replyList;
     ReplyAdapter replyAdapter;
@@ -69,9 +72,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        //example
-        tvExample = (TextView)findViewById(R.id.tv_example);
-
+        tv_replyCount = (TextView)findViewById(R.id.tv_replyCount);
 
         Intent intent = getIntent();
         VideoVo videoVo = intent.getParcelableExtra("videoVo");
@@ -94,7 +95,6 @@ public class VideoActivity extends YouTubeBaseActivity{
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 // 비디오 아이디
                 youTubePlayer.loadVideo(id);
-
             }
             @Override
 
@@ -108,6 +108,8 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         //relply ArrayList 초기화
 //        replyList = new ArrayList<ReplyVo>();
+
+
         //RecyclerView 관련
         rv_reply = (RecyclerView)findViewById(R.id.rv_reply);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -163,7 +165,8 @@ public class VideoActivity extends YouTubeBaseActivity{
         builder.show();
     }
     public void deleteBtnListener(View view){
-        new DeleteAllAsyncTask(db.replyDao()).execute();
+        AsyncTask asyncTask = new DeleteAllAsyncTask(db.replyDao()).execute();
+
     }
 
     public DialogInterface.OnClickListener writeButtonClickListener = new DialogInterface.OnClickListener()     {
@@ -172,7 +175,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),1));
+            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),id));
         }
     };
 
@@ -190,23 +193,23 @@ public class VideoActivity extends YouTubeBaseActivity{
         @Override // 백그라운드작업(메인스레드 X)
         protected Void doInBackground(Void... voids) {
             replyList = new ArrayList<ReplyVo>(replyDao.getAll());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
             if(replyAdapter==null){
                 replyAdapter = new ReplyAdapter(replyList, user, profile);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        rv_reply.setAdapter(replyAdapter);
-                    }
-                });
-
+                rv_reply.setAdapter(replyAdapter);
             }else{
                 replyAdapter.setReplyList(replyList);
             }
-            return null;
+            tv_replyCount.setText("("+replyAdapter.getItemCount()+")");
         }
     }
 
-    public static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    public class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
         public DeleteAllAsyncTask(ReplyDao replyDao){
@@ -216,14 +219,35 @@ public class VideoActivity extends YouTubeBaseActivity{
         @Override // 백그라운드작업(메인스레드 X)
         protected Void doInBackground(Void... voids) {
             replyDao.deleteAll();
+
+
             return null;
         }
+
+
+        // parameter로 결과값 받아오기 Test (list size get하면 되기 때문에 굳이 이렇게안해도 됨)
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    replyList.clear();
+                    tv_replyCount.setText("("+replyList.size()+")");
+                    replyAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
     }
 
-    public static class InsertAsyncTask extends AsyncTask<ReplyVo, Void, Void> {
+    public class InsertAsyncTask extends AsyncTask<ReplyVo, Void, Void> {
         private ReplyDao replyDao;
 
-        public  InsertAsyncTask(ReplyDao replyDao){
+        public InsertAsyncTask(ReplyDao replyDao){
             this.replyDao = replyDao;
         }
 
@@ -231,8 +255,17 @@ public class VideoActivity extends YouTubeBaseActivity{
         protected Void doInBackground(ReplyVo... replyVos) {
             //추가만하고 따로 SELECT문을 안해도 라이브데이터로 인해
             //getAll()이 반응해서 데이터를 갱신해서 보여줄 것이다,  메인액티비티에 옵저버에 쓴 코드가 실행된다. (라이브데이터는 스스로 백그라운드로 처리해준다.)
-            replyDao.insert(replyVos[0]);
+            ReplyVo replyVo = replyVos[0];
+            replyDao.insert(replyVo);
+            replyList.add(replyVo);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            replyAdapter.notifyDataSetChanged();
+            tv_replyCount.setText("("+replyList.size()+")");
         }
     }
 }

@@ -10,9 +10,9 @@ public class ReplyVo {
     public int id;
     public String writer;
     public String replyData;
-    public int contentId;
+    public String contentId;
 
-    public ReplyVo(String writer, String replyData, int contentId) {
+    public ReplyVo(String writer, String replyData, String contentId) {
         this.writer = writer;
         this.replyData = replyData;
         this.contentId = contentId;
@@ -42,11 +42,11 @@ public class ReplyVo {
         this.replyData = replyData;
     }
 
-    public int getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
