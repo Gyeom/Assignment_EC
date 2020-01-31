@@ -6,15 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.VideoActivity">
-    <fragment
-        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
-        android:id="@+id/youtube_fragment"
+
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youtubeView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-<!--    <com.google.android.youtube.player.YouTubePlayerView-->
-<!--        android:id="@+id/youtubeView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"

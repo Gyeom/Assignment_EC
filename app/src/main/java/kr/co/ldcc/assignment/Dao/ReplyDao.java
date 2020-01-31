@@ -14,8 +14,8 @@ import kr.co.ldcc.assignment.Vo.ReplyVo;
 @Dao
 public interface ReplyDao {
 @Query("SELECT * FROM reply")
-    LiveData<List<ReplyVo>> getAll();
-
+//    LiveData<List<ReplyVo>> getAll();
+List<ReplyVo> getAll();
     @Insert
     void insert(ReplyVo replyVo);
 

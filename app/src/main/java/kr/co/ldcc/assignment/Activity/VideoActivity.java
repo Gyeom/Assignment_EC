@@ -12,14 +12,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Delete;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,8 +41,8 @@ import kr.co.ldcc.assignment.Vo.ReplyVo;
 import kr.co.ldcc.assignment.Vo.VideoVo;
 
 
-public class VideoActivity extends AppCompatActivity {
-//    YouTubePlayerView youtubeView;
+public class VideoActivity extends YouTubeBaseActivity{
+    YouTubePlayerView youtubeView;
     String title;
     String thumbnail;
     String url;
@@ -78,28 +86,28 @@ public class VideoActivity extends AppCompatActivity {
         Log.d("test",url.substring(url.lastIndexOf("v=")));
         id = url.substring(url.lastIndexOf("v=")+2);
 
-//        youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
-//        listener = new YouTubePlayer.OnInitializedListener(){
-//
-//            @Override
-//
-//            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-//                // 비디오 아이디
-//                youTubePlayer.loadVideo(id);
-//
-//            }
-//            @Override
-//
-//            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-//            }
-//
-//        };
-//
-//        youtubeView.initialize(id, listener);
+        youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
+        listener = new YouTubePlayer.OnInitializedListener(){
+
+            @Override
+
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                // 비디오 아이디
+                youTubePlayer.loadVideo(id);
+
+            }
+            @Override
+
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+            }
+
+        };
+
+        youtubeView.initialize(id, listener);
 
 
         //relply ArrayList 초기화
-        replyList = new ArrayList<ReplyVo>();
+//        replyList = new ArrayList<ReplyVo>();
         //RecyclerView 관련
         rv_reply = (RecyclerView)findViewById(R.id.rv_reply);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -107,26 +115,34 @@ public class VideoActivity extends AppCompatActivity {
 
         //디비생성
         db = AppDatabase.getInstance(this);
+        new SelectAllAsyncTask(db.replyDao()).execute();
+//        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
+//                if(replyAdapter==null){
+//                    replyAdapter = new ReplyAdapter(replyList, user, profile);
+//                    rv_reply.setAdapter(replyAdapter);
+//                }else{
+//                    replyAdapter.setReplyList(replyList);
+//                }
 
-        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
-        db.replyDao().getAll().observe(this, new Observer<List<ReplyVo>>() {
-            @Override
-            public void onChanged(List<ReplyVo> vos) {
-                if(vos==null){
-                    tvExample.setText("");
-                }
-
-                tvExample.setText(vos.toString());
-                replyList = new ArrayList<>(vos);
-                Log.d("test",replyList.toString()+"1");
-                if(replyAdapter==null){
-                    replyAdapter = new ReplyAdapter(replyList, user, profile);
-                    rv_reply.setAdapter(replyAdapter);
-                }else{
-                    replyAdapter.setReplyList(replyList);
-                }
-            }
-        });
+//        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
+//        db.replyDao().getAll().observe(this, new Observer<List<ReplyVo>>() {
+//            @Override
+//            public void onChanged(List<ReplyVo> vos) {
+//                if(vos==null){
+//                    tvExample.setText("");
+//                }
+//
+//                tvExample.setText(vos.toString());
+//                replyList = new ArrayList<>(vos);
+//                Log.d("test",replyList.toString()+"1");
+//                if(replyAdapter==null){
+//                    replyAdapter = new ReplyAdapter(replyList, user, profile);
+//                    rv_reply.setAdapter(replyAdapter);
+//                }else{
+//                    replyAdapter.setReplyList(replyList);
+//                }
+//            }
+//        });
 
 
     }
@@ -162,7 +178,34 @@ public class VideoActivity extends AppCompatActivity {
 
 
 
+
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
+    public class SelectAllAsyncTask extends AsyncTask<Void, Void, Void> {
+        private ReplyDao replyDao;
+
+        public SelectAllAsyncTask(ReplyDao replyDao){
+            this.replyDao = replyDao;
+        }
+
+        @Override // 백그라운드작업(메인스레드 X)
+        protected Void doInBackground(Void... voids) {
+            replyList = new ArrayList<ReplyVo>(replyDao.getAll());
+            if(replyAdapter==null){
+                replyAdapter = new ReplyAdapter(replyList, user, profile);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        rv_reply.setAdapter(replyAdapter);
+                    }
+                });
+
+            }else{
+                replyAdapter.setReplyList(replyList);
+            }
+            return null;
+        }
+    }
+
     public static class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
