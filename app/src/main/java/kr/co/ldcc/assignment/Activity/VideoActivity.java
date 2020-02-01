@@ -23,7 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Delete;
+
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -47,7 +47,7 @@ public class VideoActivity extends YouTubeBaseActivity{
     String title;
     String thumbnail;
     String url;
-    String id;
+    String contentId;
 
     //userInfo
     String user;
@@ -85,7 +85,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         thumbnail = videoVo.getThumbnail();
         url = videoVo.getUrl();
         Log.d("test",url.substring(url.lastIndexOf("v=")));
-        id = url.substring(url.lastIndexOf("v=")+2);
+        contentId = url.substring(url.lastIndexOf("v=")+2);
 
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
         listener = new YouTubePlayer.OnInitializedListener(){
@@ -94,7 +94,7 @@ public class VideoActivity extends YouTubeBaseActivity{
 
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 // 비디오 아이디
-                youTubePlayer.loadVideo(id);
+                youTubePlayer.loadVideo(contentId);
             }
             @Override
 
@@ -103,7 +103,7 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         };
 
-        youtubeView.initialize(id, listener);
+        youtubeView.initialize(contentId, listener);
 
 
         //relply ArrayList 초기화
@@ -175,7 +175,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),id));
+            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),contentId));
         }
     };
 
@@ -192,7 +192,7 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         @Override // 백그라운드작업(메인스레드 X)
         protected Void doInBackground(Void... voids) {
-            replyList = new ArrayList<ReplyVo>(replyDao.getAll());
+            replyList = new ArrayList<ReplyVo>(replyDao.getAll(contentId));
             return null;
         }
 

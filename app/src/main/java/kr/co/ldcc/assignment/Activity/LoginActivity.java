@@ -1,7 +1,11 @@
 package kr.co.ldcc.assignment.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +19,8 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
+
+import java.security.MessageDigest;
 
 import kr.co.ldcc.assignment.R;
 
@@ -30,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
         Session.getCurrentSession().checkAndImplicitOpen();
+
+        getAppKeyHash();
     }
 
     @Override
@@ -83,6 +91,22 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onSessionOpenFailed(KakaoException e) {
             Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요: "+e.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getAppKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                Log.e("Hash key", something);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            Log.e("name not found", e.toString());
         }
     }
 }
