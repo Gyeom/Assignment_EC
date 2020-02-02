@@ -8,12 +8,12 @@ public class ReplyVo {
 
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public String writer;
+    public String userId;
     public String replyData;
     public String contentId;
 
-    public ReplyVo(String writer, String replyData, String contentId) {
-        this.writer = writer;
+    public ReplyVo(String userId, String replyData, String contentId) {
+        this.userId = userId;
         this.replyData = replyData;
         this.contentId = contentId;
     }
@@ -26,12 +26,12 @@ public class ReplyVo {
         this.id = id;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getReplyData() {
@@ -54,7 +54,7 @@ public class ReplyVo {
     public String toString() {
         return "ReplyVo{" +
                 "id=" + id +
-                ", writer='" + writer + '\'' +
+                ", userId='" + userId + '\'' +
                 ", replyData='" + replyData + '\'' +
                 ", contentId=" + contentId +
                 '}';

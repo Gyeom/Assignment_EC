@@ -35,10 +35,10 @@ public class FmImgLinear extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.fm_recycler,container,false);
+        View v =inflater.inflate(R.layout.fm_recycler_linear,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.recycler) ;
+        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 

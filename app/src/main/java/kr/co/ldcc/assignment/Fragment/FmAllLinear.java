@@ -13,12 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
-import kr.co.ldcc.assignment.Adapter.ImageAdapter;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.ImageVo;
 
 import static kr.co.ldcc.assignment.Activity.MainActivity.allDataAdapter;
-import static kr.co.ldcc.assignment.Activity.MainActivity.imageAdapter;
 
 
 /**
@@ -37,10 +34,10 @@ public class FmAllLinear extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.fm_recycler,container,false);
+        View v =inflater.inflate(R.layout.fm_recycler_linear,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.recycler) ;
+        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 

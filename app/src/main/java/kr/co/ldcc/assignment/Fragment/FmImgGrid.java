@@ -30,11 +30,11 @@ public class FmImgGrid  extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fm_recycler,container,false);
+        View v =inflater.inflate(R.layout.fm_recycler_grid,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.recycler);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),4);
+        RecyclerView recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
         recyclerView.setLayoutManager(mLayoutManager);
 
         // 리사이클러뷰에 VideoAdapter 객체 지정.

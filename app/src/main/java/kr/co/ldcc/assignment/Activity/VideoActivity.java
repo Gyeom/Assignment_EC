@@ -1,7 +1,6 @@
 package kr.co.ldcc.assignment.Activity;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,14 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,13 +22,13 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import kr.co.ldcc.assignment.Adapter.ReplyAdapter;
 import kr.co.ldcc.assignment.DB.AppDatabase;
+import kr.co.ldcc.assignment.Dao.BmarkDao;
 import kr.co.ldcc.assignment.Dao.ReplyDao;
 import kr.co.ldcc.assignment.R;
+import kr.co.ldcc.assignment.Vo.BmarkVo;
 import kr.co.ldcc.assignment.Vo.ReplyVo;
 import kr.co.ldcc.assignment.Vo.VideoVo;
 
@@ -48,6 +39,7 @@ public class VideoActivity extends YouTubeBaseActivity{
     String thumbnail;
     String url;
     String contentId;
+    String datetime;
 
     //userInfo
     String user;
@@ -63,6 +55,8 @@ public class VideoActivity extends YouTubeBaseActivity{
     RecyclerView rv_reply;
     LinearLayoutManager linearLayoutManager;
 
+    //Bookmark
+    Button btn_bookmark;
     //example
     TextView tvExample;
     EditText editText;
@@ -73,7 +67,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         setContentView(R.layout.activity_video);
 
         tv_replyCount = (TextView)findViewById(R.id.tv_replyCount);
-
+        btn_bookmark = (Button)findViewById(R.id.bmarkBtn);
         Intent intent = getIntent();
         VideoVo videoVo = intent.getParcelableExtra("videoVo");
 
@@ -84,6 +78,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         title = videoVo.getTitle();
         thumbnail = videoVo.getThumbnail();
         url = videoVo.getUrl();
+        datetime = videoVo.getDatetime();
         Log.d("test",url.substring(url.lastIndexOf("v=")));
         contentId = url.substring(url.lastIndexOf("v=")+2);
 
@@ -117,7 +112,8 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         //디비생성
         db = AppDatabase.getInstance(this);
-        new SelectAllAsyncTask(db.replyDao()).execute();
+        new SelectAllReply(db.replyDao()).execute();
+        new SelectBmark(db.bmarkDao()).execute();
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
@@ -147,6 +143,15 @@ public class VideoActivity extends YouTubeBaseActivity{
 //        });
 
 
+    }
+
+//
+    public void bmarkBtnListener(View view){
+        if(btn_bookmark.isSelected()==true){
+            new DeleteBmark(db.bmarkDao()).execute();
+        }else{
+            new InsertBmark(db.bmarkDao()).execute();
+        }
     }
 
     public void writeBtnListener(View view){
@@ -183,10 +188,10 @@ public class VideoActivity extends YouTubeBaseActivity{
 
 
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
-    public class SelectAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    public class SelectAllReply extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
-        public SelectAllAsyncTask(ReplyDao replyDao){
+        public SelectAllReply(ReplyDao replyDao){
             this.replyDao = replyDao;
         }
 
@@ -207,6 +212,68 @@ public class VideoActivity extends YouTubeBaseActivity{
             }
             tv_replyCount.setText("("+replyAdapter.getItemCount()+")");
         }
+    }
+
+    public class SelectBmark extends  AsyncTask<Void, Void, Boolean> {
+        private BmarkDao bmarkDao;
+
+        public SelectBmark(BmarkDao bmarkDao){ this.bmarkDao = bmarkDao; }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            boolean result=false;
+            if(null== bmarkDao.getOne(user,contentId)){
+
+            }else{
+                result = true;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean results) {
+            btn_bookmark.setSelected(results);
+
+        }
+    }
+    public class DeleteBmark extends  AsyncTask<Void, Void, Void>{
+        private  BmarkDao bmarkDao;
+        public DeleteBmark(BmarkDao bmarkDao){
+            this.bmarkDao = bmarkDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            bmarkDao.delete(user,contentId);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            btn_bookmark.setSelected(false);
+        }
+
+
+    }
+    public class InsertBmark extends  AsyncTask<Void, Void, Void>{
+        private BmarkDao bmarkDao;
+        public InsertBmark(BmarkDao bmarkDao) {
+            this.bmarkDao = bmarkDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            bmarkDao.insert(new BmarkVo(title,thumbnail,url,datetime,user,contentId));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            btn_bookmark.setSelected(true);
+        }
+
     }
 
     public class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
