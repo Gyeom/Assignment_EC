@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import kr.co.ldcc.assignment.Fragment.FmBookmark;
+import kr.co.ldcc.assignment.Fragment.FmBmark;
 import kr.co.ldcc.assignment.Fragment.FmMain;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
@@ -26,7 +26,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 FmMain fragmentForMain = new FmMain();
                 return fragmentForMain;
             case 1:
-                FmBookmark fragmentForBookmark = new FmBookmark();
+                FmBmark fragmentForBookmark = new FmBmark();
                 return fragmentForBookmark;
 
             default:

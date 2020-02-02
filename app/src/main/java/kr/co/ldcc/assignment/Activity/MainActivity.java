@@ -39,7 +39,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
+import kr.co.ldcc.assignment.Adapter.BmarkAdapter;
 import kr.co.ldcc.assignment.Adapter.ImageAdapter;
+import kr.co.ldcc.assignment.Vo.BmarkVo;
 import kr.co.ldcc.assignment.Vo.ImageVo;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Adapter.TabPagerAdapter;
@@ -60,9 +62,13 @@ public class MainActivity extends AppCompatActivity {
     public static ImageAdapter imageAdapter;
     public static AllDataAdapter allDataAdapter;
 
-
     String user;
     String profile;
+
+    public String getUser() {
+        return user;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
