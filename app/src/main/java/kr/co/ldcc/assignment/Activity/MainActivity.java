@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         return user;
     }
 
+    public String getProfile() {
+        return profile;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

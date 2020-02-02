@@ -80,7 +80,7 @@ public class FmBmark extends Fragment {
             bmarkList = new ArrayList<BmarkVo>(results);
             Log.d("test","onPostExecute");
             Log.d("test",bmarkList.toString());
-            bmarkAdapter= new BmarkAdapter(bmarkList);
+            bmarkAdapter= new BmarkAdapter(bmarkList,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
             recyclerView.setAdapter(bmarkAdapter);
             bmarkAdapter.notifyDataSetChanged();
         }
