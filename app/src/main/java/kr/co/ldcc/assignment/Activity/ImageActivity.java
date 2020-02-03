@@ -1,8 +1,13 @@
 package kr.co.ldcc.assignment.Activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,13 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
-import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
@@ -30,14 +32,10 @@ import kr.co.ldcc.assignment.Dao.ReplyDao;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Vo.BmarkVo;
 import kr.co.ldcc.assignment.Vo.ReplyVo;
-import kr.co.ldcc.assignment.Vo.VideoVo;
 
-
-public class VideoActivity extends YouTubeBaseActivity{
-    YouTubePlayerView youtubeView;
-    String title;
+public class ImageActivity extends AppCompatActivity {
+    ImageView imageView;
     String thumbnail;
-    String url;
     String contentId;
     String datetime;
 
@@ -64,46 +62,25 @@ public class VideoActivity extends YouTubeBaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
+        setContentView(R.layout.activity_image);
+
+        imageView = (ImageView)findViewById(R.id.imageView);
         tv_replyCount = (TextView)findViewById(R.id.tv_replyCount);
         btn_bookmark = (Button)findViewById(R.id.bmarkBtn);
         Intent intent = getIntent();
-        VideoVo videoVo = intent.getParcelableExtra("videoVo");
+
 
         user = intent.getStringExtra("user");
-        Log.d("test","videoActivity시작"+user);
         profile = intent.getStringExtra("profile");
 
-        Log.d("test","videoVo의 Hashcode : "+videoVo.toString().hashCode());
-        title = videoVo.getTitle();
-        thumbnail = videoVo.getThumbnail();
-        url = videoVo.getUrl();
-        datetime = videoVo.getDatetime();
-        Log.d("test",url.substring(url.lastIndexOf("v=")));
-        contentId = url.substring(url.lastIndexOf("v=")+2);
-
-        youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
-        listener = new YouTubePlayer.OnInitializedListener(){
-
-            @Override
-
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                // 비디오 아이디
-                youTubePlayer.loadVideo(contentId);
-            }
-            @Override
-
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-            }
-
-        };
-
-        youtubeView.initialize(contentId, listener);
-
-
+        thumbnail = intent.getStringExtra("thumbnail");
+        datetime = intent.getStringExtra("datetime");
+        Log.d("test",thumbnail.substring(thumbnail.lastIndexOf("/")));
+        contentId = thumbnail.substring(thumbnail.lastIndexOf("/")+1);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        Glide.with(imageView.getContext()).load(thumbnail).into(imageView);
         //relply ArrayList 초기화
 //        replyList = new ArrayList<ReplyVo>();
-
 
         //RecyclerView 관련
         rv_reply = (RecyclerView)findViewById(R.id.rv_reply);
@@ -112,8 +89,8 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         //디비생성
         db = AppDatabase.getInstance(this);
-        new SelectAllReply(db.replyDao()).execute();
-        new SelectBmark(db.bmarkDao()).execute();
+        new ImageActivity.SelectAllReply(db.replyDao()).execute();
+        new ImageActivity.SelectBmark(db.bmarkDao()).execute();
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
@@ -145,12 +122,12 @@ public class VideoActivity extends YouTubeBaseActivity{
 
     }
 
-//
+    //
     public void bmarkBtnListener(View view){
         if(btn_bookmark.isSelected()==true){
-            new DeleteBmark(db.bmarkDao()).execute();
+            new ImageActivity.DeleteBmark(db.bmarkDao()).execute();
         }else{
-            new InsertBmark(db.bmarkDao()).execute();
+            new ImageActivity.InsertBmark(db.bmarkDao()).execute();
         }
     }
 
@@ -170,7 +147,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         builder.show();
     }
     public void deleteBtnListener(View view){
-        AsyncTask asyncTask = new DeleteAllAsyncTask(db.replyDao()).execute();
+        AsyncTask asyncTask = new ImageActivity.DeleteAllAsyncTask(db.replyDao()).execute();
 
     }
 
@@ -180,7 +157,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),contentId));
+            AsyncTask asyncTask= new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),contentId));
         }
     };
 
@@ -264,7 +241,9 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.insert(new BmarkVo(title,thumbnail,url,datetime,user,contentId));
+            BmarkVo bmarkVo = new BmarkVo("",thumbnail,"",datetime,user,contentId);
+            bmarkDao.insert(bmarkVo);
+            Log.d("test",bmarkVo.toString());
             return null;
         }
 
@@ -335,4 +314,5 @@ public class VideoActivity extends YouTubeBaseActivity{
             tv_replyCount.setText("("+replyList.size()+")");
         }
     }
+
 }

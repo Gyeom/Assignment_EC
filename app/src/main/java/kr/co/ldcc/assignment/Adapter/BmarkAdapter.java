@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import kr.co.ldcc.assignment.Activity.ImageActivity;
 import kr.co.ldcc.assignment.Activity.MainActivity;
 import kr.co.ldcc.assignment.Activity.VideoActivity;
 import kr.co.ldcc.assignment.R;
@@ -65,15 +66,15 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         String title = null;
-        String thumbnail = null;
         String url = bmarkList.get(position).getUrl();
-        String datetime = bmarkList.get(position).getDatetime();
+        final String thumbnail = (bmarkList.get(position)).getThumbnail();
+        final String datetime = bmarkList.get(position).getDatetime();
         if(bmarkList.get(position).getTitle()==null){
-            thumbnail = (bmarkList.get(position)).getThumbnail();
+//            thumbnail = (bmarkList.get(position)).getThumbnail();
             holder.tv_title.setText("");
         }else{
             title = (bmarkList.get(position)).getTitle();
-            thumbnail = (bmarkList.get(position)).getThumbnail();
+//            thumbnail = (bmarkList.get(position)).getThumbnail();
             holder.tv_title.setText(title) ;
         }
         Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
@@ -84,7 +85,11 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 Intent intent = null;
                 if(holder.tv_title.getText().equals("")){
-//                    intent = new Intent(v.getContext(), ImageActivity.class);
+                    intent = new Intent(v.getContext(), ImageActivity.class);
+                    intent.putExtra("thumbnail", thumbnail);
+                    intent.putExtra("datetime", datetime);
+                    intent.putExtra("user",userId);
+                    intent.putExtra("profile",profile);
                 }else{
                     intent = new Intent(v.getContext(), VideoActivity.class);
                     intent.putExtra("videoVo",videoVo);

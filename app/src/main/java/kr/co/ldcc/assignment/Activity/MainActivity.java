@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = intent.getStringExtra("name");
         profile = intent.getStringExtra("profile");
-
+        Log.d("test",user+"MainActivity 시작 ");
         //Initializing the TabLayout;
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("전체보기"));
@@ -216,9 +216,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(allDataAdapter==null){
-            allDataAdapter= new AllDataAdapter(allData_list);
+            allDataAdapter= new AllDataAdapter(allData_list,user,profile);
         }else{
             allDataAdapter.setAllDataList(allData_list);
+            allDataAdapter.setUser(user);
+            allDataAdapter.setProfile(profile);
         }
         allDataAdapter.notifyDataSetChanged();
 
@@ -279,9 +281,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 if(imageAdapter==null){
-                    imageAdapter= new ImageAdapter(imageData_list);
+                    Log.d("test",user+"imageAdapter 생성 전 ");
+                    imageAdapter= new ImageAdapter(imageData_list,user, profile);
                 }else{
                     imageAdapter.setImgList(imageData_list);
+                    imageAdapter.setUser(user);
+                    imageAdapter.setProfile(profile);
                 }
 
                 // UI를 제어하기 위해서 사용

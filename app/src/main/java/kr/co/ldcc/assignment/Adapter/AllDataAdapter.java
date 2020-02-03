@@ -1,7 +1,9 @@
 package kr.co.ldcc.assignment.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import kr.co.ldcc.assignment.Activity.ImageActivity;
+import kr.co.ldcc.assignment.Activity.VideoActivity;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Vo.ImageVo;
 import kr.co.ldcc.assignment.Vo.VideoVo;
@@ -20,24 +24,52 @@ import kr.co.ldcc.assignment.Vo.VideoVo;
 public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHolder> {
 
 private ArrayList<Object> allDataList = null ;
+    String user;
+    String profile;
 
-// 아이템 뷰를 저장하는 뷰홀더 클래스.
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    // 아이템 뷰를 저장하는 뷰홀더 클래스.
 public class ViewHolder extends RecyclerView.ViewHolder {
     TextView tv_title;
     ImageView iv_thumbnail;
 
-    ViewHolder(View itemView) {
+
+    ViewHolder(final View itemView) {
         super(itemView) ;
 
         // 뷰 객체에 대한 참조. (hold strong reference)
         tv_title = itemView.findViewById(R.id.alldata_title) ;
         iv_thumbnail = itemView.findViewById(R.id.alldata_thumbnail);
+
+        itemView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                    itemView.getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                else
+                    itemView.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+
+            }
+        });
     }
 }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
     public AllDataAdapter(ArrayList<Object> list) {
         allDataList = list ;
+    }
+    public AllDataAdapter(ArrayList<Object> list, String user, String profile) {
+        allDataList = list;
+        this.user = user;
+        this.profile = profile;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -55,17 +87,40 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder( AllDataAdapter.ViewHolder holder, int position) {
-        String title = null;
-        String thumbnail = null;
         if(allDataList.get(position).getClass()==ImageVo.class){
-            thumbnail = ((ImageVo)allDataList.get(position)).getThumbnail_url();
+            final String thumbnail = ((ImageVo)allDataList.get(position)).getThumbnail_url();
+            final String datetime = ((ImageVo)allDataList.get(position)).getDatetime();
             holder.tv_title.setText("");
+            Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ImageActivity.class);
+
+                intent.putExtra("thumbnail", thumbnail);
+                intent.putExtra("datetime", datetime);
+                intent.putExtra("user",user);
+                intent.putExtra("profile",profile);
+                v.getContext().startActivity(intent);
+                }
+            });
         }else if(allDataList.get(position).getClass()== VideoVo.class){
-            title = ((VideoVo)allDataList.get(position)).getTitle();
-            thumbnail = ((VideoVo)allDataList.get(position)).getThumbnail();
-            holder.tv_title.setText(title) ;
+            final String title = ((VideoVo)allDataList.get(position)).getTitle();
+            final VideoVo videoVo = ((VideoVo)allDataList.get(position));
+            String thumbnail = videoVo.getThumbnail();
+            Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
+            holder.tv_title.setText(title);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), VideoActivity.class);
+                    intent.putExtra("videoVo",videoVo);
+                    intent.putExtra("user",user);
+                    intent.putExtra("profile",profile);
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
-        Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

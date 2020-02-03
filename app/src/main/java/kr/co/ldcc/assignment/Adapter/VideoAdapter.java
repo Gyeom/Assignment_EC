@@ -3,6 +3,7 @@ package kr.co.ldcc.assignment.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,7 +26,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private ArrayList<VideoVo> vdList = null ;
     String title;
     String thumbnail;
-    String url;
     String user;
     String profile;
 
@@ -34,13 +34,23 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         TextView tv_title;
         ImageView iv_thumbnail;
 
-        ViewHolder(View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView) ;
 
             // 뷰 객체에 대한 참조. (hold strong reference)
             tv_title = itemView.findViewById(R.id.vd_title) ;
             iv_thumbnail = itemView.findViewById(R.id.vd_thumbnail);
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP)
+                        itemView.getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                    else
+                        itemView.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
 
+                }
+            });
         }
     }
 
@@ -73,7 +83,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         final VideoVo videoVo = vdList.get(position);
         title = videoVo.getTitle() ;
         thumbnail = videoVo.getThumbnail();
-        url = videoVo.getUrl();
         Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
         holder.tv_title.setText(title) ;
 
