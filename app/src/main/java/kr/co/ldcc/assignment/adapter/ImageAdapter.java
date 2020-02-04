@@ -26,13 +26,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView iv_thumbnail;
+        private ImageView imageViewThumbnail;
 
         ViewHolder(final View itemView) {
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            iv_thumbnail = itemView.findViewById(R.id.imageViewImageThumbnail);
+            imageViewThumbnail = itemView.findViewById(R.id.imageViewImageThumbnail);
 
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -42,6 +42,23 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                     else
                         itemView.getParent().getParent().requestDisallowInterceptTouchEvent(true);
                     return false;
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    final String thumbnail = imageVos.get(pos).getThumbnail_url();
+                    final String datetime = imageVos.get(pos).getDatetime();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent intent = new Intent(v.getContext(), ImageActivity.class);
+                        intent.putExtra("thumbnail", thumbnail);
+                        intent.putExtra("datetime", datetime);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("profile", profile);
+                        v.getContext().startActivity(intent);
+                    }
                 }
             });
         }
@@ -70,20 +87,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
         final String thumbnail = imageVos.get(position).getThumbnail_url();
-        final String datetime = imageVos.get(position).getDatetime();
-        Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ImageActivity.class);
-                intent.putExtra("thumbnail", thumbnail);
-                intent.putExtra("datetime", datetime);
-                intent.putExtra("userId", userId);
-                intent.putExtra("profile", profile);
-                v.getContext().startActivity(intent);
-            }
-        });
+        Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.
@@ -91,5 +95,4 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public int getItemCount() {
         return imageVos.size();
     }
-
 }

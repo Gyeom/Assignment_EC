@@ -48,6 +48,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     return false;
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        VideoVo videoVo = videoVos.get(pos);
+                        Intent intent = new Intent(v.getContext(), VideoActivity.class);
+                        intent.putExtra("videoVo", videoVo);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("profile", profile);
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
@@ -73,24 +88,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
-//        holder.getAdapterPosition() -- 권장
 
         final VideoVo videoVo = videoVos.get(position);
         title = videoVo.getTitle();
         thumbnail = videoVo.getThumbnail();
         Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
         holder.textViewTitle.setText(title);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), VideoActivity.class);
-                intent.putExtra("videoVo", videoVo);
-                intent.putExtra("userId", userId);
-                intent.putExtra("profile", profile);
-                v.getContext().startActivity(intent);
-            }
-        });
     }
 
     // getItemCount() - 전체 데이터 갯수 리턴.

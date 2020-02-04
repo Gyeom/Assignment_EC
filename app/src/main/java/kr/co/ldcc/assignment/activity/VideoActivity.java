@@ -110,33 +110,35 @@ public class VideoActivity extends YouTubeBaseActivity {
         new SelectAllReply(db.replyDao()).execute();
         new SelectBookmark(db.bookmarkDao()).execute();
 
-//        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
-//                if(replyAdapter==null){
-//                    replyAdapter = new ReplyAdapter(replyList, user, profile);
-//                    recyclerViewReply.setAdapter(replyAdapter);
-//                }else{
-//                    replyAdapter.setReplyList(replyList);
-//                }
 
-//        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
-//        db.replyDao().getAll().observe(this, new Observer<List<ReplyVo>>() {
-//            @Override
-//            public void onChanged(List<ReplyVo> vos) {
-//                if(vos==null){
-//                    tvExample.setText("");
-//                }
-//
-//                tvExample.setText(vos.toString());
-//                replyList = new ArrayList<>(vos);
-//                Log.d("test",replyList.toString()+"1");
-//                if(replyAdapter==null){
-//                    replyAdapter = new ReplyAdapter(replyList, user, profile);
-//                    recyclerViewReply.setAdapter(replyAdapter);
-//                }else{
-//                    replyAdapter.setReplyList(replyList);
-//                }
-//            }
-//        });
+        // liveData 사용법
+       /*   replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
+                if(replyAdapter==null){
+                    replyAdapter = new ReplyAdapter(replyList, user, profile);
+                    recyclerViewReply.setAdapter(replyAdapter);
+                }else{
+                    replyAdapter.setReplyList(replyList);
+                }
+
+        //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
+        db.replyDao().getAll().observe(this, new Observer<List<ReplyVo>>() {
+            @Override
+            public void onChanged(List<ReplyVo> vos) {
+                if(vos==null){
+                    tvExample.setText("");
+                }
+
+                tvExample.setText(vos.toString());
+                replyList = new ArrayList<>(vos);
+                Log.d("test",replyList.toString()+"1");
+                if(replyAdapter==null){
+                    replyAdapter = new ReplyAdapter(replyList, user, profile);
+                    recyclerViewReply.setAdapter(replyAdapter);
+                }else{
+                    replyAdapter.setReplyList(replyList);
+                }
+            }
+        });*/
     }
 
     public void bookmarkButtonListener(View view) {

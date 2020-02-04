@@ -45,6 +45,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
             imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
             textViewUser = itemView.findViewById(R.id.textViewUser);
             textViewReplyData = itemView.findViewById(R.id.textViewReplyData);
+
         }
     }
 

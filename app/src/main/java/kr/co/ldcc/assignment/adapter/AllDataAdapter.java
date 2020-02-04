@@ -50,6 +50,31 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
 
                 }
             });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Object item = allDataList.get(position);
+                    Intent intent=null;
+                    if(item instanceof ImageVo){
+                        final String thumbnail = ((ImageVo) item).getThumbnail_url();
+                        final String datetime = ((ImageVo) item).getDatetime();
+                        intent = new Intent(v.getContext(), ImageActivity.class);
+                        intent.putExtra("thumbnail", thumbnail);
+                        intent.putExtra("datetime", datetime);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("profile", profile);
+                    }else if(item instanceof VideoVo){
+                        intent = new Intent(v.getContext(), VideoActivity.class);
+                        intent.putExtra("videoVo", (VideoVo)item);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("profile", profile);
+                    }
+                    v.getContext().startActivity(intent);
+                }
+            });
+
         }
     }
 
@@ -74,38 +99,17 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(AllDataAdapter.ViewHolder holder, int position) {
-        if (allDataList.get(position).getClass() == ImageVo.class) {
+    public void onBindViewHolder(final AllDataAdapter.ViewHolder holder, final int position) {
+        if (allDataList.get(position) instanceof ImageVo) {
             final String thumbnail = ((ImageVo) allDataList.get(position)).getThumbnail_url();
-            final String datetime = ((ImageVo) allDataList.get(position)).getDatetime();
             Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), ImageActivity.class);
-                    intent.putExtra("thumbnail", thumbnail);
-                    intent.putExtra("datetime", datetime);
-                    intent.putExtra("userId", userId);
-                    intent.putExtra("profile", profile);
-                    v.getContext().startActivity(intent);
-                }
-            });
-        } else if (allDataList.get(position).getClass() == VideoVo.class) {
+            holder.textViewTitle.setText("");
+        } else if (allDataList.get(position) instanceof VideoVo) {
             final String title = ((VideoVo) allDataList.get(position)).getTitle();
             final VideoVo videoVo = ((VideoVo) allDataList.get(position));
             String thumbnail = videoVo.getThumbnail();
             Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
             holder.textViewTitle.setText(title);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), VideoActivity.class);
-                    intent.putExtra("videoVo", videoVo);
-                    intent.putExtra("userId", userId);
-                    intent.putExtra("profile", profile);
-                    v.getContext().startActivity(intent);
-                }
-            });
         }
     }
 
