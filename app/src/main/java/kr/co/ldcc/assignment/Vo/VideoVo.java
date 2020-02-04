@@ -4,27 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class VideoVo implements Parcelable {
-    String title;
-    int play_time;
-    String thumbnail;
-    String url;
-    String datetime;
-    String author;
-
-//    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-//    Date curDate = null;
-//    Date objDate = null;
-//    @Override
-//    public int compareTo(VideoVo obj) {
-//        try{
-//            curDate = simpleDateFormat.parse(this.datetime);
-//            objDate = simpleDateFormat.parse(obj.datetime);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        return curDate.compareTo(objDate);
-//    }
+    private String title;
+    private int play_time;
+    private String thumbnail;
+    private String url;
+    private String datetime;
+    private String author;
 
     public VideoVo(String title, int play_time, String thumbnail, String url, String datetime, String author) {
         this.title = title;

@@ -2,7 +2,6 @@ package kr.co.ldcc.assignment.Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import kr.co.ldcc.assignment.Vo.BmarkVo;
 
 public class BmarkFragment extends Fragment {
 
-    AppDatabase db=null;
-    RecyclerView recyclerView;
+    private AppDatabase db=null;
+    private RecyclerView recyclerView;
     private ArrayList<BmarkVo> bmarkList;
     private BmarkAdapter bmarkAdapter;
     public static BmarkFragment newInstance() {
@@ -39,7 +38,7 @@ public class BmarkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fm_recycler_grid,container,false);
+        View v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
         recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);

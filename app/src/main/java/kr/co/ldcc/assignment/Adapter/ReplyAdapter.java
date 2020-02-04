@@ -1,6 +1,5 @@
 package kr.co.ldcc.assignment.Adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
 
     public void setReplyList(ArrayList<ReplyVo> replyList) {
         this.replyList = replyList;
-        notifyDataSetChanged();
     }
 
     public ReplyAdapter(ArrayList<ReplyVo> replyList, String userId, String profile) {
@@ -36,17 +34,17 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_profile;
-        TextView tv_user;
-        TextView tv_replyData;
+        private ImageView imageViewProfile;
+        private TextView textViewUser;
+        private TextView textViewReplyData;
 
         ViewHolder(View itemView) {
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            iv_profile = itemView.findViewById(R.id.iv_profile);
-            tv_user = itemView.findViewById(R.id.tv_user);
-            tv_replyData = itemView.findViewById(R.id.tv_replyData);
+            imageViewProfile = itemView.findViewById(R.id.iv_profile);
+            textViewUser = itemView.findViewById(R.id.tv_user);
+            textViewReplyData = itemView.findViewById(R.id.tv_replyData);
         }
     }
 
@@ -64,7 +62,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_reply_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_reply_item, parent, false);
         ViewHolder vh = new ViewHolder(view);
 
         return vh;
@@ -74,9 +72,9 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final ReplyVo replyVo = replyList.get(position);
-        holder.tv_user.setText(userId);
-        holder.tv_replyData.setText(replyVo.getReplyData());
-        Glide.with(holder.iv_profile.getContext()).load(profile).into(holder.iv_profile);
+        holder.textViewUser.setText(userId);
+        holder.textViewReplyData.setText(replyVo.getReplyData());
+        Glide.with(holder.imageViewProfile.getContext()).load(profile).into(holder.imageViewProfile);
     }
 
     @Override

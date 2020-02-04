@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey;
 public class ReplyVo {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String userId;
-    public String replyData;
-    public String contentId;
+    private int id;
+    private String userId;
+    private String replyData;
+    private String contentId;
 
     public ReplyVo(String userId, String replyData, String contentId) {
         this.userId = userId;

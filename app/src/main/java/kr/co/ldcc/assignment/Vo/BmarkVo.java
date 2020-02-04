@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey;
 public class BmarkVo {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String title;
-    public String thumbnail;
-    public String url;
-    public String datetime;
-    public String userId;
-    public String contentId;
+    private int id;
+    private String title;
+    private String thumbnail;
+    private String url;
+    private String datetime;
+    private String userId;
+    private String contentId;
 
     public BmarkVo(String title, String thumbnail, String url, String datetime, String userId, String contentId) {
         this.title = title;

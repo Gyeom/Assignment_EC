@@ -22,22 +22,22 @@ import kr.co.ldcc.assignment.Vo.VideoVo;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
     private ArrayList<VideoVo> videoVos;
-    String title;
-    String thumbnail;
-    String userId;
-    String profile;
+    private String title;
+    private String thumbnail;
+    private String userId;
+    private String profile;
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_title;
-        ImageView iv_thumbnail;
+        private TextView textViewTitle;
+        private ImageView imageViewThumbnail;
 
         ViewHolder(final View itemView) {
-            super(itemView) ;
+            super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            tv_title = itemView.findViewById(R.id.vd_title) ;
-            iv_thumbnail = itemView.findViewById(R.id.vd_thumbnail);
+            textViewTitle = itemView.findViewById(R.id.vd_title);
+            imageViewThumbnail = itemView.findViewById(R.id.vd_thumbnail);
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -52,8 +52,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    public VideoAdapter(ArrayList<VideoVo> videoVos,String userId,String profile) {
-        this.videoVos = videoVos ;
+    public VideoAdapter(ArrayList<VideoVo> videoVos, String userId, String profile) {
+        this.videoVos = videoVos;
         this.userId = userId;
         this.profile = profile;
     }
@@ -61,13 +61,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
     public VideoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext() ;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
+        Context context = parent.getContext();
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.rv_vd_item, parent, false) ;
-        VideoAdapter.ViewHolder vh = new VideoAdapter.ViewHolder(view) ;
+        View view = inflater.inflate(R.layout.recyclerview_vd_item, parent, false);
+        VideoAdapter.ViewHolder vh = new VideoAdapter.ViewHolder(view);
 
-        return vh ;
+        return vh;
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
@@ -76,18 +76,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 //        holder.getAdapterPosition() -- 권장
 
         final VideoVo videoVo = videoVos.get(position);
-        title = videoVo.getTitle() ;
+        title = videoVo.getTitle();
         thumbnail = videoVo.getThumbnail();
-        Glide.with(holder.iv_thumbnail.getContext()).load(thumbnail).into(holder.iv_thumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
-        holder.tv_title.setText(title) ;
+        Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
+        holder.textViewTitle.setText(title);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), VideoActivity.class);
-                intent.putExtra("videoVo",videoVo);
-                intent.putExtra("userId",userId);
-                intent.putExtra("profile",profile);
+                intent.putExtra("videoVo", videoVo);
+                intent.putExtra("userId", userId);
+                intent.putExtra("profile", profile);
                 v.getContext().startActivity(intent);
             }
         });
@@ -96,6 +96,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return videoVos.size() ;
+        return videoVos.size();
     }
 }

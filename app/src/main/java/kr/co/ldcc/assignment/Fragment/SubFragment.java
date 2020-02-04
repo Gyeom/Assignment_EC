@@ -47,9 +47,9 @@ public class SubFragment extends androidx.fragment.app.Fragment {
         ArrayList<Object> allDataVos;
 
         switch (getTag()) {
-            case "btn_vd_grid":
+            case "buttonVideoGrid":
                 // Inflate the layout for this fragment
-                v =inflater.inflate(R.layout.fm_recycler_grid,container,false);
+                v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
                 Log.d("test",getTag());
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
@@ -60,8 +60,8 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 // 리사이클러뷰에 VideoAdapter 객체 지정.
                 recyclerView.setAdapter(videoAdapter);
                 break;
-            case "btn_vd_linear":
-                v =inflater.inflate(R.layout.fm_recycler_linear,container,false);
+            case "buttonVideoLinear":
+                v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
@@ -74,9 +74,9 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 // 리사이클러뷰에 VideoAdapter 객체 지정.
                 recyclerView.setAdapter(videoAdapter) ;
                 break;
-            case "btn_img_grid":
+            case "buttonImageGrid":
                 // Inflate the layout for this fragment
-                v =inflater.inflate(R.layout.fm_recycler_grid,container,false);
+                v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
@@ -89,8 +89,8 @@ public class SubFragment extends androidx.fragment.app.Fragment {
 
                 recyclerView.setAdapter(imageAdapter) ;
                 break;
-            case "btn_img_linear":
-                v =inflater.inflate(R.layout.fm_recycler_linear,container,false);
+            case "buttonImageLinear":
+                v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
@@ -103,8 +103,8 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 // 리사이클러뷰에 mageAdapter 객체 지정.
                 recyclerView.setAdapter(imageAdapter) ;
                 break;
-            case "btn_all_grid":
-                v =inflater.inflate(R.layout.fm_recycler_grid,container,false);
+            case "buttonAllDataGrid":
+                v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
@@ -116,8 +116,8 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 allDataAdapter = new AllDataAdapter(allDataVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
                 recyclerView.setAdapter(allDataAdapter);
                 break;
-            case "btn_all_linear":
-                v =inflater.inflate(R.layout.fm_recycler_linear,container,false);
+            case "buttonAllDataLinear":
+                v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;

@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/searchText"
+            android:id="@+id/textViewSearch"
             android:layout_width="362dp"
             android:layout_height="35dp"
             android:layout_marginLeft="2dp"
@@ -33,7 +33,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/searchBtn"
+            android:id="@+id/buttonSearch"
             android:layout_width="37dp"
             android:layout_height="35dp"
             android:background="@android:drawable/ic_menu_search"

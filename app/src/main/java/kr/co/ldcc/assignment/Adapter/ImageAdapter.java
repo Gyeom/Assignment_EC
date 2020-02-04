@@ -29,7 +29,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         ImageView iv_thumbnail;
 
         ViewHolder(final View itemView) {
-            super(itemView) ;
+            super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
             iv_thumbnail = itemView.findViewById(R.id.img_thumbnail);
@@ -48,8 +48,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    public ImageAdapter(ArrayList<ImageVo> imageVos,String userId,String profile) {
-        this.imageVos = imageVos ;
+    public ImageAdapter(ArrayList<ImageVo> imageVos, String userId, String profile) {
+        this.imageVos = imageVos;
         this.userId = userId;
         this.profile = profile;
 
@@ -59,11 +59,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
-        View view = inflater.inflate(R.layout.rv_img_item, parent, false) ;
-        ImageAdapter.ViewHolder vh = new ImageAdapter.ViewHolder(view) ;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.recyclerview_image_item, parent, false);
+        ImageAdapter.ViewHolder vh = new ImageAdapter.ViewHolder(view);
 
-        return vh ;
+        return vh;
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
@@ -79,8 +79,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 Intent intent = new Intent(v.getContext(), ImageActivity.class);
                 intent.putExtra("thumbnail", thumbnail);
                 intent.putExtra("datetime", datetime);
-                intent.putExtra("userId",userId);
-                intent.putExtra("profile",profile);
+                intent.putExtra("userId", userId);
+                intent.putExtra("profile", profile);
                 v.getContext().startActivity(intent);
             }
         });
@@ -89,7 +89,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return imageVos.size() ;
+        return imageVos.size();
     }
 
 }

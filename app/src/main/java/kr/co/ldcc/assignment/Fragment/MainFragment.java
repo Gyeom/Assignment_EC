@@ -19,57 +19,57 @@ public class MainFragment extends Fragment {
         return new MainFragment();
     }
 
-    private Button btn_vd_grid, btn_vd_linear;
-    private Button btn_img_grid, btn_img_linear;
-    private Button btn_all_grid, btn_all_linear;
+    private Button buttonVideoGrid, buttonVideoLinear;
+    private Button buttonImageGrid, buttonImageLinear;
+    private Button buttonAllDataGrid, buttonAllDataLinear;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fm_main,container,false);
-        btn_vd_grid = (Button)v.findViewById(R.id.btn_vd_grid);
-        btn_vd_linear = (Button)v.findViewById(R.id.btn_vd_linear);
-        btn_img_grid = (Button)v.findViewById(R.id.btn_img_grid);
-        btn_img_linear = (Button)v.findViewById(R.id.btn_img_linear);
-        btn_all_grid = (Button)v.findViewById(R.id.btn_all_grid);
-        btn_all_linear = (Button)v.findViewById(R.id.btn_all_linear);
-        showLayout(btn_vd_linear);
-        showLayout(btn_img_linear);
-        showLayout(btn_all_linear);
+        View v = inflater.inflate(R.layout.fragment_main,container,false);
+        buttonVideoGrid = (Button)v.findViewById(R.id.btn_vd_grid);
+        buttonVideoLinear = (Button)v.findViewById(R.id.btn_vd_linear);
+        buttonImageGrid = (Button)v.findViewById(R.id.btn_img_grid);
+        buttonImageLinear = (Button)v.findViewById(R.id.btn_img_linear);
+        buttonAllDataGrid = (Button)v.findViewById(R.id.btn_all_grid);
+        buttonAllDataLinear = (Button)v.findViewById(R.id.btn_all_linear);
+        showLayout(buttonVideoLinear);
+        showLayout(buttonImageLinear);
+        showLayout(buttonAllDataLinear);
 
         //Button Listener
-        btn_vd_linear.setOnClickListener(new View.OnClickListener() {
+        buttonVideoLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
             }
         });
-        btn_vd_grid.setOnClickListener(new View.OnClickListener() {
+        buttonVideoGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
             }
         });
-        btn_img_linear.setOnClickListener(new View.OnClickListener() {
+        buttonImageLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
             }
         });
-        btn_img_grid.setOnClickListener(new View.OnClickListener() {
+        buttonImageGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
             }
         });
-        btn_all_linear.setOnClickListener(new View.OnClickListener() {
+        buttonAllDataLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
             }
         });
-        btn_all_grid.setOnClickListener(new View.OnClickListener() {
+        buttonAllDataGrid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showLayout(v);
@@ -84,22 +84,22 @@ public class MainFragment extends Fragment {
 
         switch (view.getId()) {
             case R.id.btn_vd_grid:
-                tran.replace(R.id.container_video, SubFragment.newInstance(),"btn_vd_grid");
+                tran.replace(R.id.container_video, SubFragment.newInstance(),"buttonVideoGrid");
                 break;
             case R.id.btn_vd_linear:
-                tran.replace(R.id.container_video, SubFragment.newInstance(),"btn_vd_linear");
+                tran.replace(R.id.container_video, SubFragment.newInstance(),"buttonVideoLinear");
                 break;
             case R.id.btn_img_linear:
-                tran.replace(R.id.container_image, SubFragment.newInstance(),"btn_img_linear");
+                tran.replace(R.id.container_image, SubFragment.newInstance(),"buttonImageLinear");
                 break;
             case R.id.btn_img_grid:
-                tran.replace(R.id.container_image, SubFragment.newInstance(),"btn_img_grid");
+                tran.replace(R.id.container_image, SubFragment.newInstance(),"buttonImageGrid");
                 break;
             case R.id.btn_all_linear:
-                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"btn_all_linear");
+                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"buttonAllDataLinear");
                 break;
             case R.id.btn_all_grid:
-                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"btn_all_grid");
+                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"buttonAllDataGrid");
                 break;
         }
         tran.commit();

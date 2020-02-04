@@ -4,14 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ImageVo implements Parcelable {
-    String collection;
-    String thumbnail_url;
-    String image_url;
-    int width;
-    int height;
-    String display_sitename;
-    String doc_url;
-    String datetime;
+    private String collection;
+    private String thumbnail_url;
+    private String image_url;
+    private int width;
+    private int height;
+    private String display_sitename;
+    private String doc_url;
+    private String datetime;
 
     public ImageVo(String collection, String thumbnail_url, String image_url, int width, int height, String display_sitename, String doc_url, String datetime) {
         this.collection = collection;

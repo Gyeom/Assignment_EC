@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
 
@@ -34,58 +31,53 @@ import kr.co.ldcc.assignment.Vo.BmarkVo;
 import kr.co.ldcc.assignment.Vo.ReplyVo;
 
 public class ImageActivity extends AppCompatActivity {
-    ImageView imageView;
-    String thumbnail;
-    String contentId;
-    String datetime;
+    private ImageView imageView;
+    private String thumbnail;
+    private String contentId;
+    private String datetime;
 
     //userInfo
-    String userId;
-    String profile;
-    AppDatabase db=null;
-    YouTubePlayer.OnInitializedListener listener;
+    private String userId;
+    private String profile;
+    private AppDatabase db = null;
+    private YouTubePlayer.OnInitializedListener listener;
 
     //Reply
-    TextView tv_replyCount;
+    private TextView textViewReplyCount;
+
     //recyclerView
-    ArrayList<ReplyVo> replyList;
-    ReplyAdapter replyAdapter;
-    RecyclerView rv_reply;
-    LinearLayoutManager linearLayoutManager;
+    private ArrayList<ReplyVo> replyList;
+    private ReplyAdapter replyAdapter;
+    private RecyclerView recyclerViewReply;
+    private LinearLayoutManager linearLayoutManager;
 
     //Bookmark
-    Button btn_bookmark;
-    //example
-    TextView tvExample;
-    EditText editText;
+    private Button ButtonBmark;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        imageView = (ImageView)findViewById(R.id.imageView);
-        tv_replyCount = (TextView)findViewById(R.id.tv_replyCount);
-        btn_bookmark = (Button)findViewById(R.id.bmarkBtn);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        textViewReplyCount = (TextView) findViewById(R.id.textViewReplyCount);
+        ButtonBmark = (Button) findViewById(R.id.buttonBmark);
+
         Intent intent = getIntent();
-
-
         userId = intent.getStringExtra("userId");
         profile = intent.getStringExtra("profile");
-
         thumbnail = intent.getStringExtra("thumbnail");
         datetime = intent.getStringExtra("datetime");
-        Log.d("test",thumbnail.substring(thumbnail.lastIndexOf("/")));
-        contentId = thumbnail.substring(thumbnail.lastIndexOf("/")+1);
+
+        contentId = thumbnail.substring(thumbnail.lastIndexOf("/") + 1);
         imageView = (ImageView) findViewById(R.id.imageView);
         Glide.with(imageView.getContext()).load(thumbnail).into(imageView);
-        //relply ArrayList 초기화
-//        replyList = new ArrayList<ReplyVo>();
 
         //RecyclerView 관련
-        rv_reply = (RecyclerView)findViewById(R.id.rv_reply);
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
-        rv_reply.setLayoutManager(linearLayoutManager);
+        recyclerViewReply = (RecyclerView) findViewById(R.id.rv_reply);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerViewReply.setLayoutManager(linearLayoutManager);
 
         //디비생성
         db = AppDatabase.getInstance(this);
@@ -94,7 +86,7 @@ public class ImageActivity extends AppCompatActivity {
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
-//                    rv_reply.setAdapter(replyAdapter);
+//                    recyclerViewReply.setAdapter(replyAdapter);
 //                }else{
 //                    replyAdapter.setReplyList(replyList);
 //                }
@@ -112,7 +104,7 @@ public class ImageActivity extends AppCompatActivity {
 //                Log.d("test",replyList.toString()+"1");
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
-//                    rv_reply.setAdapter(replyAdapter);
+//                    recyclerViewReply.setAdapter(replyAdapter);
 //                }else{
 //                    replyAdapter.setReplyList(replyList);
 //                }
@@ -122,86 +114,85 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    //
-    public void bmarkBtnListener(View view){
-        if(btn_bookmark.isSelected()==true){
+    public void bmarkBtnListener(View view) {
+        if (ButtonBmark.isSelected() == true) {
             new ImageActivity.DeleteBmark(db.bmarkDao()).execute();
-        }else{
+        } else {
             new ImageActivity.InsertBmark(db.bmarkDao()).execute();
         }
     }
 
-    public void writeBtnListener(View view){
+    public void writeBtnListener(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("댓글쓰기");
         builder.setIcon(R.drawable.write);
         // 다이얼로그를 통해 보여줄 뷰를 생성한다.
         LayoutInflater inflater = getLayoutInflater();
         View v1 = inflater.inflate(R.layout.dialog, null);
-        editText = (EditText)v1.findViewById(R.id.editText);
+        editText = (EditText) v1.findViewById(R.id.editTextDialog);
         builder.setView(v1);
 
         builder.setPositiveButton("작성하기", writeButtonClickListener);
-        builder.setNegativeButton("취소하기",null);
+        builder.setNegativeButton("취소하기", null);
 
         builder.show();
     }
-    public void deleteBtnListener(View view){
-        AsyncTask asyncTask = new ImageActivity.DeleteAllAsyncTask(db.replyDao()).execute();
+
+    public void deleteBtnListener(View view) {
+        new ImageActivity.DeleteAllAsyncTask(db.replyDao()).execute();
 
     }
 
-    public DialogInterface.OnClickListener writeButtonClickListener = new DialogInterface.OnClickListener()     {
+    public DialogInterface.OnClickListener writeButtonClickListener = new DialogInterface.OnClickListener() {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask= new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId,editText.getText().toString(),contentId));
+            AsyncTask asyncTask = new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId, editText.getText().toString(), contentId));
         }
     };
 
-
-
-
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public class SelectAllReply extends AsyncTask<Void, Void, Void> {
-            private ReplyDao replyDao;
+        private ReplyDao replyDao;
 
-        public SelectAllReply(ReplyDao replyDao){
-                this.replyDao = replyDao;
-            }
+        public SelectAllReply(ReplyDao replyDao) {
+            this.replyDao = replyDao;
+        }
 
-            @Override // 백그라운드작업(메인스레드 X)
-            protected Void doInBackground(Void... voids) {
-                replyList = new ArrayList<ReplyVo>(replyDao.getAll(contentId));
-                return null;
-            }
+        @Override // 백그라운드작업(메인스레드 X)
+        protected Void doInBackground(Void... voids) {
+            replyList = new ArrayList<ReplyVo>(replyDao.getAll(contentId));
+            return null;
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(replyAdapter==null){
+            if (replyAdapter == null) {
                 replyAdapter = new ReplyAdapter(replyList, userId, profile);
-                rv_reply.setAdapter(replyAdapter);
-            }else{
+                recyclerViewReply.setAdapter(replyAdapter);
+            } else {
                 replyAdapter.setReplyList(replyList);
             }
-            tv_replyCount.setText("("+replyAdapter.getItemCount()+")");
+            textViewReplyCount.setText("(" + replyAdapter.getItemCount() + ")");
         }
     }
 
-    public class SelectBmark extends  AsyncTask<Void, Void, Boolean> {
+    public class SelectBmark extends AsyncTask<Void, Void, Boolean> {
         private BmarkDao bmarkDao;
 
-        public SelectBmark(BmarkDao bmarkDao){ this.bmarkDao = bmarkDao; }
+        public SelectBmark(BmarkDao bmarkDao) {
+            this.bmarkDao = bmarkDao;
+        }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            boolean result=false;
-            if(null== bmarkDao.getOne(userId,contentId)){
+            boolean result = false;
+            if (null == bmarkDao.getOne(userId, contentId)) {
 
-            }else{
+            } else {
                 result = true;
             }
             return result;
@@ -209,48 +200,50 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean results) {
-            btn_bookmark.setSelected(results);
+            ButtonBmark.setSelected(results);
 
         }
     }
-    public class DeleteBmark extends  AsyncTask<Void, Void, Void>{
-        private  BmarkDao bmarkDao;
-        public DeleteBmark(BmarkDao bmarkDao){
+
+    public class DeleteBmark extends AsyncTask<Void, Void, Void> {
+        private BmarkDao bmarkDao;
+
+        public DeleteBmark(BmarkDao bmarkDao) {
             this.bmarkDao = bmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.delete(userId,contentId);
+            bmarkDao.delete(userId, contentId);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            btn_bookmark.setSelected(false);
+            ButtonBmark.setSelected(false);
         }
-
-
     }
-    public class InsertBmark extends  AsyncTask<Void, Void, Void>{
+
+    public class InsertBmark extends AsyncTask<Void, Void, Void> {
         private BmarkDao bmarkDao;
+
         public InsertBmark(BmarkDao bmarkDao) {
             this.bmarkDao = bmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            BmarkVo bmarkVo = new BmarkVo("",thumbnail,"",datetime,userId,contentId);
+            BmarkVo bmarkVo = new BmarkVo("", thumbnail, "", datetime, userId, contentId);
             bmarkDao.insert(bmarkVo);
-            Log.d("test",bmarkVo.toString());
+            Log.d("test", bmarkVo.toString());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            btn_bookmark.setSelected(true);
+            ButtonBmark.setSelected(true);
         }
 
     }
@@ -258,7 +251,7 @@ public class ImageActivity extends AppCompatActivity {
     public class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
-        public DeleteAllAsyncTask(ReplyDao replyDao){
+        public DeleteAllAsyncTask(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 
@@ -270,10 +263,7 @@ public class ImageActivity extends AppCompatActivity {
             return null;
         }
 
-
         // parameter로 결과값 받아오기 Test (list size get하면 되기 때문에 굳이 이렇게안해도 됨)
-
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -282,7 +272,7 @@ public class ImageActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     replyList.clear();
-                    tv_replyCount.setText("("+replyList.size()+")");
+                    textViewReplyCount.setText("(" + replyList.size() + ")");
                     replyAdapter.notifyDataSetChanged();
                 }
             });
@@ -293,7 +283,7 @@ public class ImageActivity extends AppCompatActivity {
     public class InsertAsyncTask extends AsyncTask<ReplyVo, Void, Void> {
         private ReplyDao replyDao;
 
-        public InsertAsyncTask(ReplyDao replyDao){
+        public InsertAsyncTask(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 
@@ -311,7 +301,7 @@ public class ImageActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             replyAdapter.notifyDataSetChanged();
-            tv_replyCount.setText("("+replyList.size()+")");
+            textViewReplyCount.setText("(" + replyList.size() + ")");
         }
     }
 
