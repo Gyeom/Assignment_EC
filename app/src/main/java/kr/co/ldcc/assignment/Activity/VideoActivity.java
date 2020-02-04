@@ -42,7 +42,7 @@ public class VideoActivity extends YouTubeBaseActivity{
     String datetime;
 
     //userInfo
-    String user;
+    String userId;
     String profile;
     AppDatabase db=null;
     YouTubePlayer.OnInitializedListener listener;
@@ -70,16 +70,14 @@ public class VideoActivity extends YouTubeBaseActivity{
         Intent intent = getIntent();
         VideoVo videoVo = intent.getParcelableExtra("videoVo");
 
-        user = intent.getStringExtra("user");
-        Log.d("test","videoActivity시작"+user);
+        userId = intent.getStringExtra("userId");
         profile = intent.getStringExtra("profile");
 
-               Log.d("test","videoVo의 Hashcode : "+videoVo.toString().hashCode());
+        Log.d("test","videoVo의 Hashcode : "+videoVo.toString().hashCode());
         title = videoVo.getTitle();
         thumbnail = videoVo.getThumbnail();
         url = videoVo.getUrl();
         datetime = videoVo.getDatetime();
-        Log.d("test",url.substring(url.lastIndexOf("v=")));
         contentId = url.substring(url.lastIndexOf("v=")+2);
 
         youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
@@ -141,11 +139,8 @@ public class VideoActivity extends YouTubeBaseActivity{
 //                }
 //            }
 //        });
-
-
     }
 
-//
     public void bmarkBtnListener(View view){
         if(btn_bookmark.isSelected()==true){
             new DeleteBmark(db.bmarkDao()).execute();
@@ -180,7 +175,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),contentId));
+            AsyncTask asyncTask= new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId,editText.getText().toString(),contentId));
         }
     };
 
@@ -205,7 +200,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if(replyAdapter==null){
-                replyAdapter = new ReplyAdapter(replyList, user, profile);
+                replyAdapter = new ReplyAdapter(replyList, userId, profile);
                 rv_reply.setAdapter(replyAdapter);
             }else{
                 replyAdapter.setReplyList(replyList);
@@ -222,7 +217,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean result=false;
-            if(null== bmarkDao.getOne(user,contentId)){
+            if(null== bmarkDao.getOne(userId,contentId)){
 
             }else{
                 result = true;
@@ -244,7 +239,7 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.delete(user,contentId);
+            bmarkDao.delete(userId,contentId);
             return null;
         }
 
@@ -264,7 +259,7 @@ public class VideoActivity extends YouTubeBaseActivity{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.insert(new BmarkVo(title,thumbnail,url,datetime,user,contentId));
+            bmarkDao.insert(new BmarkVo(title,thumbnail,url,datetime,userId,contentId));
             return null;
         }
 

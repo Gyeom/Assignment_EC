@@ -40,7 +40,7 @@ public class ImageActivity extends AppCompatActivity {
     String datetime;
 
     //userInfo
-    String user;
+    String userId;
     String profile;
     AppDatabase db=null;
     YouTubePlayer.OnInitializedListener listener;
@@ -70,7 +70,7 @@ public class ImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        user = intent.getStringExtra("user");
+        userId = intent.getStringExtra("userId");
         profile = intent.getStringExtra("profile");
 
         thumbnail = intent.getStringExtra("thumbnail");
@@ -157,7 +157,7 @@ public class ImageActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask= new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(user,editText.getText().toString(),contentId));
+            AsyncTask asyncTask= new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId,editText.getText().toString(),contentId));
         }
     };
 
@@ -182,7 +182,7 @@ public class ImageActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if(replyAdapter==null){
-                replyAdapter = new ReplyAdapter(replyList, user, profile);
+                replyAdapter = new ReplyAdapter(replyList, userId, profile);
                 rv_reply.setAdapter(replyAdapter);
             }else{
                 replyAdapter.setReplyList(replyList);
@@ -199,7 +199,7 @@ public class ImageActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean result=false;
-            if(null== bmarkDao.getOne(user,contentId)){
+            if(null== bmarkDao.getOne(userId,contentId)){
 
             }else{
                 result = true;
@@ -221,7 +221,7 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.delete(user,contentId);
+            bmarkDao.delete(userId,contentId);
             return null;
         }
 
@@ -241,7 +241,7 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            BmarkVo bmarkVo = new BmarkVo("",thumbnail,"",datetime,user,contentId);
+            BmarkVo bmarkVo = new BmarkVo("",thumbnail,"",datetime,userId,contentId);
             bmarkDao.insert(bmarkVo);
             Log.d("test",bmarkVo.toString());
             return null;

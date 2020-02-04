@@ -1,7 +1,6 @@
 package kr.co.ldcc.assignment.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import kr.co.ldcc.assignment.R;
 
-public class FmMain extends Fragment {
+public class MainFragment extends Fragment {
 
-    public static FmMain newInstance() {
-        return new FmMain();
+    public static MainFragment newInstance() {
+        return new MainFragment();
     }
-
 
     private Button btn_vd_grid, btn_vd_linear;
     private Button btn_img_grid, btn_img_linear;
@@ -83,22 +81,27 @@ public class FmMain extends Fragment {
     public void showLayout(View view){
         FragmentManager fragmentManager = getChildFragmentManager();
         FragmentTransaction tran =  fragmentManager.beginTransaction();
-        Log.d("test",view.getId()+"");
-        switch (view.getId()){
-            case R.id.btn_vd_grid: tran.replace(R.id.container_video, FmVdGrid.newInstance());
-            break;
-            case R.id.btn_vd_linear: tran.replace(R.id.container_video, FmVdLinear.newInstance());
-            break;
-            case R.id.btn_img_linear: tran.replace(R.id.container_image, FmImgLinear.newInstance());
+
+        switch (view.getId()) {
+            case R.id.btn_vd_grid:
+                tran.replace(R.id.container_video, SubFragment.newInstance(),"btn_vd_grid");
                 break;
-            case R.id.btn_img_grid: tran.replace(R.id.container_image, FmImgGrid.newInstance());
-            break;
-            case R.id.btn_all_linear: tran.replace(R.id.container_alldata, FmAllLinear.newInstance());
+            case R.id.btn_vd_linear:
+                tran.replace(R.id.container_video, SubFragment.newInstance(),"btn_vd_linear");
                 break;
-            case R.id.btn_all_grid: tran.replace(R.id.container_alldata, FmAllGrid.newInstance());
+            case R.id.btn_img_linear:
+                tran.replace(R.id.container_image, SubFragment.newInstance(),"btn_img_linear");
+                break;
+            case R.id.btn_img_grid:
+                tran.replace(R.id.container_image, SubFragment.newInstance(),"btn_img_grid");
+                break;
+            case R.id.btn_all_linear:
+                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"btn_all_linear");
+                break;
+            case R.id.btn_all_grid:
+                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"btn_all_grid");
                 break;
         }
         tran.commit();
     }
-
 }

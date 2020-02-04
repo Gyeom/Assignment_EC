@@ -24,11 +24,11 @@ import kr.co.ldcc.assignment.Vo.VideoVo;
 public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHolder> {
 
 private ArrayList<Object> allDataList = null ;
-    String user;
+    String userId;
     String profile;
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String userId) {
+        this.userId = userId;
     }
 
     public void setProfile(String profile) {
@@ -66,9 +66,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public AllDataAdapter(ArrayList<Object> list) {
         allDataList = list ;
     }
-    public AllDataAdapter(ArrayList<Object> list, String user, String profile) {
+    public AllDataAdapter(ArrayList<Object> list, String userId, String profile) {
         allDataList = list;
-        this.user = user;
+        this.userId = userId;
         this.profile = profile;
     }
 
@@ -99,7 +99,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
                 intent.putExtra("thumbnail", thumbnail);
                 intent.putExtra("datetime", datetime);
-                intent.putExtra("user",user);
+                intent.putExtra("userId",userId);
                 intent.putExtra("profile",profile);
                 v.getContext().startActivity(intent);
                 }
@@ -115,7 +115,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), VideoActivity.class);
                     intent.putExtra("videoVo",videoVo);
-                    intent.putExtra("user",user);
+                    intent.putExtra("userId",userId);
                     intent.putExtra("profile",profile);
                     v.getContext().startActivity(intent);
                 }

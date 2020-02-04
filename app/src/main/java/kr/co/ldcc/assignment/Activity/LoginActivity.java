@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("test",result.getId()+"");
                     Log.d("test",result.getKakaoAccount().getEmail()+"");
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("name", result.getNickname());
+                    intent.putExtra("userId", result.getNickname());
                     intent.putExtra("profile", result.getProfileImagePath());
                     startActivity(intent);
                     finish();

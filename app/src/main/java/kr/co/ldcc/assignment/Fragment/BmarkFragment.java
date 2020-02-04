@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,26 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.ldcc.assignment.Activity.MainActivity;
-import kr.co.ldcc.assignment.Activity.VideoActivity;
-import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
 import kr.co.ldcc.assignment.Adapter.BmarkAdapter;
 import kr.co.ldcc.assignment.DB.AppDatabase;
 import kr.co.ldcc.assignment.Dao.BmarkDao;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.Vo.BmarkVo;
 
-import static kr.co.ldcc.assignment.Activity.MainActivity.allDataAdapter;
 
-public class FmBmark extends Fragment {
+public class BmarkFragment extends Fragment {
 
     AppDatabase db=null;
     RecyclerView recyclerView;
     private ArrayList<BmarkVo> bmarkList;
     private BmarkAdapter bmarkAdapter;
-    public static FmAllGrid newInstance() {
-        return new FmAllGrid();
+    public static BmarkFragment newInstance() {
+        return new BmarkFragment();
     }
-    public FmBmark() {
+    public BmarkFragment() {
         // Required empty public constructor
     }
 
@@ -59,9 +55,7 @@ public class FmBmark extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("test","frament onResume");
         new SelectAllBmark(db.bmarkDao()).execute();
-
     }
 
     public class SelectAllBmark extends  AsyncTask<Void, Void, List<BmarkVo>> {
@@ -78,11 +72,8 @@ public class FmBmark extends Fragment {
         protected void onPostExecute(List<BmarkVo> results) {
             // 리사이클러뷰에 VideoAdapter 객체 지정.
             bmarkList = new ArrayList<BmarkVo>(results);
-            Log.d("test","onPostExecute");
-            Log.d("test",bmarkList.toString());
             bmarkAdapter= new BmarkAdapter(bmarkList,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
             recyclerView.setAdapter(bmarkAdapter);
-            bmarkAdapter.notifyDataSetChanged();
         }
     }
 }

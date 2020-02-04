@@ -88,12 +88,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                     intent = new Intent(v.getContext(), ImageActivity.class);
                     intent.putExtra("thumbnail", thumbnail);
                     intent.putExtra("datetime", datetime);
-                    intent.putExtra("user",userId);
+                    intent.putExtra("userId",userId);
                     intent.putExtra("profile",profile);
                 }else{
                     intent = new Intent(v.getContext(), VideoActivity.class);
                     intent.putExtra("videoVo",videoVo);
-                    intent.putExtra("user",userId);
+                    intent.putExtra("userId",userId);
                     intent.putExtra("profile",profile);
                 }
                 v.getContext().startActivity(intent);

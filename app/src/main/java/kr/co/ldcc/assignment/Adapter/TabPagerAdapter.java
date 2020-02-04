@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import kr.co.ldcc.assignment.Fragment.FmBmark;
-import kr.co.ldcc.assignment.Fragment.FmMain;
+import kr.co.ldcc.assignment.Fragment.BmarkFragment;
+import kr.co.ldcc.assignment.Fragment.MainFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -23,10 +23,10 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position){
             case 0:
-                FmMain fragmentForMain = new FmMain();
+                MainFragment fragmentForMain = MainFragment.newInstance();
                 return fragmentForMain;
             case 1:
-                FmBmark fragmentForBookmark = new FmBmark();
+                BmarkFragment fragmentForBookmark = BmarkFragment.newInstance();
                 return fragmentForBookmark;
 
             default:
