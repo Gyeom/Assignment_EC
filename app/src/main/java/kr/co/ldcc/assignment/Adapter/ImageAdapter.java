@@ -26,13 +26,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_thumbnail;
+        private ImageView iv_thumbnail;
 
         ViewHolder(final View itemView) {
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            iv_thumbnail = itemView.findViewById(R.id.img_thumbnail);
+            iv_thumbnail = itemView.findViewById(R.id.imageViewImageThumbnail);
 
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override

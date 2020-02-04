@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -24,10 +23,10 @@ import java.util.ArrayList;
 
 import kr.co.ldcc.assignment.Adapter.ReplyAdapter;
 import kr.co.ldcc.assignment.DB.AppDatabase;
-import kr.co.ldcc.assignment.Dao.BmarkDao;
+import kr.co.ldcc.assignment.Dao.BookmarkDao;
 import kr.co.ldcc.assignment.Dao.ReplyDao;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BmarkVo;
+import kr.co.ldcc.assignment.Vo.BookmarkVo;
 import kr.co.ldcc.assignment.Vo.ReplyVo;
 
 public class ImageActivity extends AppCompatActivity {
@@ -52,7 +51,7 @@ public class ImageActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
     //Bookmark
-    private Button ButtonBmark;
+    private Button buttonBookmark;
     private EditText editText;
 
     @Override
@@ -62,7 +61,7 @@ public class ImageActivity extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imageView);
         textViewReplyCount = (TextView) findViewById(R.id.textViewReplyCount);
-        ButtonBmark = (Button) findViewById(R.id.buttonBmark);
+        buttonBookmark = (Button) findViewById(R.id.buttonBookmark);
 
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -82,7 +81,7 @@ public class ImageActivity extends AppCompatActivity {
         //디비생성
         db = AppDatabase.getInstance(this);
         new ImageActivity.SelectAllReply(db.replyDao()).execute();
-        new ImageActivity.SelectBmark(db.bmarkDao()).execute();
+        new SelectBookmark(db.bookmarkDao()).execute();
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
@@ -114,11 +113,11 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    public void bmarkBtnListener(View view) {
-        if (ButtonBmark.isSelected() == true) {
-            new ImageActivity.DeleteBmark(db.bmarkDao()).execute();
+    public void bookmarkButtonListener(View view) {
+        if (buttonBookmark.isSelected() == true) {
+            new DeleteBookmark(db.bookmarkDao()).execute();
         } else {
-            new ImageActivity.InsertBmark(db.bmarkDao()).execute();
+            new InsertBookmark(db.bookmarkDao()).execute();
         }
     }
 
@@ -139,7 +138,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void deleteBtnListener(View view) {
-        new ImageActivity.DeleteAllAsyncTask(db.replyDao()).execute();
+        new DeleteAllReply(db.replyDao()).execute();
 
     }
 
@@ -149,7 +148,7 @@ public class ImageActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask = new ImageActivity.InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId, editText.getText().toString(), contentId));
+            AsyncTask asyncTask = new InsertAsyncReply(db.replyDao()).execute(new ReplyVo(userId, editText.getText().toString(), contentId));
         }
     };
 
@@ -180,17 +179,17 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
-    public class SelectBmark extends AsyncTask<Void, Void, Boolean> {
-        private BmarkDao bmarkDao;
+    public class SelectBookmark extends AsyncTask<Void, Void, Boolean> {
+        private BookmarkDao bookmarkDao;
 
-        public SelectBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public SelectBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean result = false;
-            if (null == bmarkDao.getOne(userId, contentId)) {
+            if (null == bookmarkDao.getOne(userId, contentId)) {
 
             } else {
                 result = true;
@@ -200,58 +199,57 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean results) {
-            ButtonBmark.setSelected(results);
+            buttonBookmark.setSelected(results);
 
         }
     }
 
-    public class DeleteBmark extends AsyncTask<Void, Void, Void> {
-        private BmarkDao bmarkDao;
+    public class DeleteBookmark extends AsyncTask<Void, Void, Void> {
+        private BookmarkDao bookmarkDao;
 
-        public DeleteBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public DeleteBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.delete(userId, contentId);
+            bookmarkDao.delete(userId, contentId);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            ButtonBmark.setSelected(false);
+            buttonBookmark.setSelected(false);
         }
     }
 
-    public class InsertBmark extends AsyncTask<Void, Void, Void> {
-        private BmarkDao bmarkDao;
+    public class InsertBookmark extends AsyncTask<Void, Void, Void> {
+        private BookmarkDao bookmarkDao;
 
-        public InsertBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public InsertBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            BmarkVo bmarkVo = new BmarkVo("", thumbnail, "", datetime, userId, contentId);
-            bmarkDao.insert(bmarkVo);
-            Log.d("test", bmarkVo.toString());
+            BookmarkVo bookMarkVo = new BookmarkVo("", thumbnail, "", datetime, userId, contentId);
+            bookmarkDao.insert(bookMarkVo);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            ButtonBmark.setSelected(true);
+            buttonBookmark.setSelected(true);
         }
 
     }
 
-    public class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    public class DeleteAllReply extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
-        public DeleteAllAsyncTask(ReplyDao replyDao) {
+        public DeleteAllReply(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 
@@ -280,10 +278,10 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    public class InsertAsyncTask extends AsyncTask<ReplyVo, Void, Void> {
+    public class InsertAsyncReply extends AsyncTask<ReplyVo, Void, Void> {
         private ReplyDao replyDao;
 
-        public InsertAsyncTask(ReplyDao replyDao) {
+        public InsertAsyncReply(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 

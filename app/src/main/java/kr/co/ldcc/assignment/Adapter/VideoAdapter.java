@@ -36,8 +36,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            textViewTitle = itemView.findViewById(R.id.vd_title);
-            imageViewThumbnail = itemView.findViewById(R.id.vd_thumbnail);
+            textViewTitle = itemView.findViewById(R.id.textViewVideoTitle);
+            imageViewThumbnail = itemView.findViewById(R.id.imageViewVideoThumbnail);
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -64,7 +64,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.recyclerview_vd_item, parent, false);
+        View view = inflater.inflate(R.layout.recyclerview_video_item, parent, false);
         VideoAdapter.ViewHolder vh = new VideoAdapter.ViewHolder(view);
 
         return vh;

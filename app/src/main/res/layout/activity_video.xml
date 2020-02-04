@@ -27,19 +27,19 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonBmark"
+                android:id="@+id/buttonBookmark"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/btn_bmark"
-                android:onClick="bmarkBtnListener" />
+                android:background="@drawable/button_bookmark"
+                android:onClick="bookmarkButtonListener" />
 
             <TextView
-                android:id="@+id/textViewBmark"
+                android:id="@+id/textViewBookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="4dp"
-                android:onClick="bmarkBtnListener"
+                android:onClick="bookmarkButtonListener"
                 android:text="북마크"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#FFC107"
@@ -51,7 +51,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="2dp"
-                android:background="@drawable/btn_write"
+                android:background="@drawable/button_write"
                 android:onClick="writeBtnListener" />
 
             <TextView

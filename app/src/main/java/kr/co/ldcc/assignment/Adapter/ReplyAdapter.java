@@ -42,9 +42,9 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            imageViewProfile = itemView.findViewById(R.id.iv_profile);
-            textViewUser = itemView.findViewById(R.id.tv_user);
-            textViewReplyData = itemView.findViewById(R.id.tv_replyData);
+            imageViewProfile = itemView.findViewById(R.id.imageViewProfile);
+            textViewUser = itemView.findViewById(R.id.textViewUser);
+            textViewReplyData = itemView.findViewById(R.id.textViewReplyData);
         }
     }
 

@@ -3,8 +3,8 @@ package kr.co.ldcc.assignment.Vo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "bmark")
-public class BmarkVo {
+@Entity(tableName = "bookmark")
+public class BookmarkVo {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -15,7 +15,7 @@ public class BmarkVo {
     private String userId;
     private String contentId;
 
-    public BmarkVo(String title, String thumbnail, String url, String datetime, String userId, String contentId) {
+    public BookmarkVo(String title, String thumbnail, String url, String datetime, String userId, String contentId) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.url = url;
@@ -82,7 +82,7 @@ public class BmarkVo {
 
     @Override
     public String toString() {
-        return "BmarkVo{" +
+        return "BookmarkVo{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", thumbnail='" + thumbnail + '\'' +

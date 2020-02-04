@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import kr.co.ldcc.assignment.Fragment.BmarkFragment;
+import kr.co.ldcc.assignment.Fragment.BookmarkFragment;
 import kr.co.ldcc.assignment.Fragment.MainFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
@@ -26,7 +26,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 MainFragment fragmentForMain = MainFragment.newInstance();
                 return fragmentForMain;
             case 1:
-                BmarkFragment fragmentForBookmark = BmarkFragment.newInstance();
+                BookmarkFragment fragmentForBookmark = BookmarkFragment.newInstance();
                 return fragmentForBookmark;
 
             default:

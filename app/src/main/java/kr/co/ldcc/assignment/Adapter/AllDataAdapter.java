@@ -36,8 +36,8 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
             super(itemView);
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            textViewTitle = itemView.findViewById(R.id.alldata_title);
-            imageViewThumbnail = itemView.findViewById(R.id.alldata_thumbnail);
+            textViewTitle = itemView.findViewById(R.id.imageViewAllDataTitle);
+            imageViewThumbnail = itemView.findViewById(R.id.imageViewAllDataThumbnail);
 
             itemView.setOnTouchListener(new View.OnTouchListener() {
                 @Override

@@ -28,12 +28,12 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_main,container,false);
-        buttonVideoGrid = (Button)v.findViewById(R.id.btn_vd_grid);
-        buttonVideoLinear = (Button)v.findViewById(R.id.btn_vd_linear);
-        buttonImageGrid = (Button)v.findViewById(R.id.btn_img_grid);
-        buttonImageLinear = (Button)v.findViewById(R.id.btn_img_linear);
-        buttonAllDataGrid = (Button)v.findViewById(R.id.btn_all_grid);
-        buttonAllDataLinear = (Button)v.findViewById(R.id.btn_all_linear);
+        buttonVideoGrid = (Button)v.findViewById(R.id.buttonVideoGrid);
+        buttonVideoLinear = (Button)v.findViewById(R.id.buttonVideoLinear);
+        buttonImageGrid = (Button)v.findViewById(R.id.buttonImageGrid);
+        buttonImageLinear = (Button)v.findViewById(R.id.buttonImageLinear);
+        buttonAllDataGrid = (Button)v.findViewById(R.id.buttonAllDataGrid);
+        buttonAllDataLinear = (Button)v.findViewById(R.id.buttonAllDataLinear);
         showLayout(buttonVideoLinear);
         showLayout(buttonImageLinear);
         showLayout(buttonAllDataLinear);
@@ -83,23 +83,23 @@ public class MainFragment extends Fragment {
         FragmentTransaction tran =  fragmentManager.beginTransaction();
 
         switch (view.getId()) {
-            case R.id.btn_vd_grid:
-                tran.replace(R.id.container_video, SubFragment.newInstance(),"buttonVideoGrid");
+            case R.id.buttonVideoGrid:
+                tran.replace(R.id.containerVideo, SubFragment.newInstance(),"buttonVideoGrid");
                 break;
-            case R.id.btn_vd_linear:
-                tran.replace(R.id.container_video, SubFragment.newInstance(),"buttonVideoLinear");
+            case R.id.buttonVideoLinear:
+                tran.replace(R.id.containerVideo, SubFragment.newInstance(),"buttonVideoLinear");
                 break;
-            case R.id.btn_img_linear:
-                tran.replace(R.id.container_image, SubFragment.newInstance(),"buttonImageLinear");
+            case R.id.buttonImageLinear:
+                tran.replace(R.id.containerImage, SubFragment.newInstance(),"buttonImageLinear");
                 break;
-            case R.id.btn_img_grid:
-                tran.replace(R.id.container_image, SubFragment.newInstance(),"buttonImageGrid");
+            case R.id.buttonImageGrid:
+                tran.replace(R.id.containerImage, SubFragment.newInstance(),"buttonImageGrid");
                 break;
-            case R.id.btn_all_linear:
-                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"buttonAllDataLinear");
+            case R.id.buttonAllDataLinear:
+                tran.replace(R.id.containerAllData, SubFragment.newInstance(),"buttonAllDataLinear");
                 break;
-            case R.id.btn_all_grid:
-                tran.replace(R.id.container_alldata, SubFragment.newInstance(),"buttonAllDataGrid");
+            case R.id.buttonAllDataGrid:
+                tran.replace(R.id.containerAllData, SubFragment.newInstance(),"buttonAllDataGrid");
                 break;
         }
         tran.commit();

@@ -31,7 +31,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textViewVideoList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
@@ -49,7 +49,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_vd_linear"
+                        android:id="@+id/buttonVideoLinear"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -60,7 +60,7 @@
                         android:textSize="12dp" />
 
                     <Button
-                        android:id="@+id/btn_vd_grid"
+                        android:id="@+id/buttonVideoGrid"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -70,21 +70,17 @@
                         android:text="grid"
                         android:textColor="#FFFFFF"
                         android:textSize="12dp" />
+
                 </LinearLayout>
 
-                <ScrollView
+                <LinearLayout
+                    android:id="@+id/containerVideo"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/container_video"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-                </ScrollView>
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -103,7 +99,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textViewImageList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
@@ -121,7 +117,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_img_linear"
+                        android:id="@+id/buttonImageLinear"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -132,7 +128,7 @@
                         android:textSize="12dp" />
 
                     <Button
-                        android:id="@+id/btn_img_grid"
+                        android:id="@+id/buttonImageGrid"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -146,7 +142,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/container_image"
+                    android:id="@+id/containerImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
@@ -169,6 +165,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewAllDataList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
@@ -186,7 +183,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_all_linear"
+                        android:id="@+id/buttonAllDataLinear"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -197,7 +194,7 @@
                         android:textSize="12dp" />
 
                     <Button
-                        android:id="@+id/btn_all_grid"
+                        android:id="@+id/buttonAllDataGrid"
                         android:layout_width="65dp"
                         android:layout_height="20dp"
                         android:layout_gravity="right"
@@ -210,17 +207,12 @@
 
                 </LinearLayout>
 
-                <ScrollView
+                <LinearLayout
+                    android:id="@+id/containerAllData"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:id="@+id/container_alldata"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:orientation="vertical" />
-                </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical" />
 
             </LinearLayout>
 

@@ -14,23 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.ldcc.assignment.Activity.MainActivity;
-import kr.co.ldcc.assignment.Adapter.BmarkAdapter;
+import kr.co.ldcc.assignment.Adapter.BookmarkAdapter;
 import kr.co.ldcc.assignment.DB.AppDatabase;
-import kr.co.ldcc.assignment.Dao.BmarkDao;
+import kr.co.ldcc.assignment.Dao.BookmarkDao;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BmarkVo;
+import kr.co.ldcc.assignment.Vo.BookmarkVo;
 
 
-public class BmarkFragment extends Fragment {
+public class BookmarkFragment extends Fragment {
 
     private AppDatabase db=null;
     private RecyclerView recyclerView;
-    private ArrayList<BmarkVo> bmarkList;
-    private BmarkAdapter bmarkAdapter;
-    public static BmarkFragment newInstance() {
-        return new BmarkFragment();
+    private ArrayList<BookmarkVo> bookmarkList;
+    private BookmarkAdapter bookMarkAdapter;
+    public static BookmarkFragment newInstance() {
+        return new BookmarkFragment();
     }
-    public BmarkFragment() {
+    public BookmarkFragment() {
         // Required empty public constructor
     }
 
@@ -41,12 +41,12 @@ public class BmarkFragment extends Fragment {
         View v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-        recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
+        recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewGrid);
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(),3);
         recyclerView.setLayoutManager(mLayoutManager);
         //디비생성
         db = AppDatabase.getInstance(getContext());
-        new SelectAllBmark(db.bmarkDao()).execute();
+        new SelectAllBookmark(db.bookmarkDao()).execute();
 
         return v;
     }
@@ -54,25 +54,25 @@ public class BmarkFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new SelectAllBmark(db.bmarkDao()).execute();
+        new SelectAllBookmark(db.bookmarkDao()).execute();
     }
 
-    public class SelectAllBmark extends  AsyncTask<Void, Void, List<BmarkVo>> {
-        private BmarkDao bmarkDao;
+    public class SelectAllBookmark extends  AsyncTask<Void, Void, List<BookmarkVo>> {
+        private BookmarkDao bookmarkDao;
 
-        public SelectAllBmark(BmarkDao bmarkDao){ this.bmarkDao = bmarkDao; }
+        public SelectAllBookmark(BookmarkDao bookmarkDao){ this.bookmarkDao = bookmarkDao; }
 
         @Override
-        protected List<BmarkVo> doInBackground(Void... voids) {
-            return bmarkDao.getAll(((MainActivity)getActivity()).getUser());
+        protected List<BookmarkVo> doInBackground(Void... voids) {
+            return bookmarkDao.getAll(((MainActivity)getActivity()).getUser());
         }
 
         @Override
-        protected void onPostExecute(List<BmarkVo> results) {
+        protected void onPostExecute(List<BookmarkVo> results) {
             // 리사이클러뷰에 VideoAdapter 객체 지정.
-            bmarkList = new ArrayList<BmarkVo>(results);
-            bmarkAdapter= new BmarkAdapter(bmarkList,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
-            recyclerView.setAdapter(bmarkAdapter);
+            bookmarkList = new ArrayList<BookmarkVo>(results);
+            bookMarkAdapter = new BookmarkAdapter(bookmarkList,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
+            recyclerView.setAdapter(bookMarkAdapter);
         }
     }
 }

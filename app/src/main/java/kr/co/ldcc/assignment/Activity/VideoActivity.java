@@ -24,10 +24,10 @@ import java.util.ArrayList;
 
 import kr.co.ldcc.assignment.Adapter.ReplyAdapter;
 import kr.co.ldcc.assignment.DB.AppDatabase;
-import kr.co.ldcc.assignment.Dao.BmarkDao;
+import kr.co.ldcc.assignment.Dao.BookmarkDao;
 import kr.co.ldcc.assignment.Dao.ReplyDao;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BmarkVo;
+import kr.co.ldcc.assignment.Vo.BookmarkVo;
 import kr.co.ldcc.assignment.Vo.ReplyVo;
 import kr.co.ldcc.assignment.Vo.VideoVo;
 
@@ -64,7 +64,7 @@ public class VideoActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         TextViewReplyCount = (TextView) findViewById(R.id.textViewReplyCount);
-        ButtonBookmark = (Button) findViewById(R.id.buttonBmark);
+        ButtonBookmark = (Button) findViewById(R.id.buttonBookmark);
         Intent intent = getIntent();
         VideoVo videoVo = intent.getParcelableExtra("videoVo");
 
@@ -108,7 +108,7 @@ public class VideoActivity extends YouTubeBaseActivity {
         //디비생성
         db = AppDatabase.getInstance(this);
         new SelectAllReply(db.replyDao()).execute();
-        new SelectBmark(db.bmarkDao()).execute();
+        new SelectBookmark(db.bookmarkDao()).execute();
 
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
@@ -139,11 +139,11 @@ public class VideoActivity extends YouTubeBaseActivity {
 //        });
     }
 
-    public void bmarkBtnListener(View view) {
+    public void bookmarkButtonListener(View view) {
         if (ButtonBookmark.isSelected() == true) {
-            new DeleteBmark(db.bmarkDao()).execute();
+            new DeleteBookmark(db.bookmarkDao()).execute();
         } else {
-            new InsertBmark(db.bmarkDao()).execute();
+            new InsertBookmark(db.bookmarkDao()).execute();
         }
     }
 
@@ -164,7 +164,7 @@ public class VideoActivity extends YouTubeBaseActivity {
     }
 
     public void deleteBtnListener(View view) {
-        AsyncTask asyncTask = new DeleteAllAsyncTask(db.replyDao()).execute();
+        AsyncTask asyncTask = new DeleteAllReply(db.replyDao()).execute();
 
     }
 
@@ -207,17 +207,17 @@ public class VideoActivity extends YouTubeBaseActivity {
         }
     }
 
-    public class SelectBmark extends AsyncTask<Void, Void, Boolean> {
-        private BmarkDao bmarkDao;
+    public class SelectBookmark extends AsyncTask<Void, Void, Boolean> {
+        private BookmarkDao bookmarkDao;
 
-        public SelectBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public SelectBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean result = false;
-            if (null == bmarkDao.getOne(userId, contentId)) {
+            if (null == bookmarkDao.getOne(userId, contentId)) {
 
             } else {
                 result = true;
@@ -232,16 +232,16 @@ public class VideoActivity extends YouTubeBaseActivity {
         }
     }
 
-    public class DeleteBmark extends AsyncTask<Void, Void, Void> {
-        private BmarkDao bmarkDao;
+    public class DeleteBookmark extends AsyncTask<Void, Void, Void> {
+        private BookmarkDao bookmarkDao;
 
-        public DeleteBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public DeleteBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.delete(userId, contentId);
+            bookmarkDao.delete(userId, contentId);
             return null;
         }
 
@@ -254,16 +254,16 @@ public class VideoActivity extends YouTubeBaseActivity {
 
     }
 
-    public class InsertBmark extends AsyncTask<Void, Void, Void> {
-        private BmarkDao bmarkDao;
+    public class InsertBookmark extends AsyncTask<Void, Void, Void> {
+        private BookmarkDao bookmarkDao;
 
-        public InsertBmark(BmarkDao bmarkDao) {
-            this.bmarkDao = bmarkDao;
+        public InsertBookmark(BookmarkDao bookmarkDao) {
+            this.bookmarkDao = bookmarkDao;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmarkDao.insert(new BmarkVo(title, thumbnail, url, datetime, userId, contentId));
+            bookmarkDao.insert(new BookmarkVo(title, thumbnail, url, datetime, userId, contentId));
             return null;
         }
 
@@ -275,10 +275,10 @@ public class VideoActivity extends YouTubeBaseActivity {
 
     }
 
-    public class DeleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
+    public class DeleteAllReply extends AsyncTask<Void, Void, Void> {
         private ReplyDao replyDao;
 
-        public DeleteAllAsyncTask(ReplyDao replyDao) {
+        public DeleteAllReply(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 

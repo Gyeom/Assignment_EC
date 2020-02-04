@@ -52,7 +52,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
                 Log.d("test",getTag());
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewGrid);
                 gridLayoutManager = new GridLayoutManager(getActivity(),3);
                 recyclerView.setLayoutManager(gridLayoutManager);
                 ArrayList<VideoVo> videoVos = ((MainActivity)getActivity()).getVideoVos();
@@ -64,7 +64,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewLinear) ;
                 linearLayoutManager = new LinearLayoutManager(getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
@@ -79,7 +79,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewGrid);
                 gridLayoutManager = new GridLayoutManager(getActivity(),3);
                 recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -93,7 +93,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewLinear) ;
                 linearLayoutManager = new LinearLayoutManager(getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recyclerView.setLayoutManager(linearLayoutManager) ;
@@ -107,7 +107,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_grid);
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewGrid);
                 gridLayoutManager = new GridLayoutManager(getActivity(),3);
                 recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -120,7 +120,7 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 v =inflater.inflate(R.layout.fragment_recycler_linear,container,false);
 
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                recyclerView =(RecyclerView) v.findViewById(R.id.rv_linear) ;
+                recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewLinear) ;
                 linearLayoutManager = new LinearLayoutManager(getActivity());
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 

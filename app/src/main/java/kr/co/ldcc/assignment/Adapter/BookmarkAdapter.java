@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import kr.co.ldcc.assignment.Activity.ImageActivity;
 import kr.co.ldcc.assignment.Activity.VideoActivity;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BmarkVo;
+import kr.co.ldcc.assignment.Vo.BookmarkVo;
 import kr.co.ldcc.assignment.Vo.VideoVo;
 
 import static android.app.PendingIntent.getActivity;
 
-public class BmarkAdapter extends RecyclerView.Adapter<BmarkAdapter.ViewHolder> {
+public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHolder> {
 
-    private ArrayList<BmarkVo> bmarkList;
+    private ArrayList<BookmarkVo> bookmarkList;
     private String userId;
     private String profile;
 
@@ -36,26 +36,26 @@ public class BmarkAdapter extends RecyclerView.Adapter<BmarkAdapter.ViewHolder> 
         ViewHolder(View itemView) {
             super(itemView);
             // 뷰 객체에 대한 참조. (hold strong reference)
-            textViewTitle = itemView.findViewById(R.id.alldata_title);
-            imageViewThumbnail = itemView.findViewById(R.id.alldata_thumbnail);
+            textViewTitle = itemView.findViewById(R.id.imageViewAllDataTitle);
+            imageViewThumbnail = itemView.findViewById(R.id.imageViewAllDataThumbnail);
         }
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    public BmarkAdapter(ArrayList<BmarkVo> bmarkList, String userId, String profile) {
+    public BookmarkAdapter(ArrayList<BookmarkVo> bookmarkList, String userId, String profile) {
         this.userId = userId;
         this.profile = profile;
-        this.bmarkList = bmarkList;
+        this.bookmarkList = bookmarkList;
     }
 
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
-    public BmarkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BookmarkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.recyclerview_alldata_item, parent, false);
-        BmarkAdapter.ViewHolder vh = new BmarkAdapter.ViewHolder(view);
+        BookmarkAdapter.ViewHolder vh = new BookmarkAdapter.ViewHolder(view);
 
         return vh;
     }
@@ -64,15 +64,15 @@ public class BmarkAdapter extends RecyclerView.Adapter<BmarkAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         String title = null;
-        String url = bmarkList.get(position).getUrl();
-        final String thumbnail = (bmarkList.get(position)).getThumbnail();
-        final String datetime = bmarkList.get(position).getDatetime();
-        if (bmarkList.get(position).getTitle() == null) {
-//            thumbnail = (bmarkList.get(position)).getThumbnail();
+        String url = bookmarkList.get(position).getUrl();
+        final String thumbnail = (bookmarkList.get(position)).getThumbnail();
+        final String datetime = bookmarkList.get(position).getDatetime();
+        if (bookmarkList.get(position).getTitle() == null) {
+//            thumbnail = (bookmarkList.get(position)).getThumbnail();
             holder.textViewTitle.setText("");
         } else {
-            title = (bmarkList.get(position)).getTitle();
-//            thumbnail = (bmarkList.get(position)).getThumbnail();
+            title = (bookmarkList.get(position)).getTitle();
+//            thumbnail = (bookmarkList.get(position)).getThumbnail();
             holder.textViewTitle.setText(title);
         }
         Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
@@ -102,7 +102,7 @@ public class BmarkAdapter extends RecyclerView.Adapter<BmarkAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return bmarkList.size();
+        return bookmarkList.size();
     }
 
 }
