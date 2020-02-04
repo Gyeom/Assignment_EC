@@ -80,6 +80,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(VideoAdapter.ViewHolder holder, int position) {
+//        holder.getAdapterPosition() -- 권장
+
         final VideoVo videoVo = vdList.get(position);
         title = videoVo.getTitle() ;
         thumbnail = videoVo.getThumbnail();

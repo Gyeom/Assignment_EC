@@ -166,17 +166,17 @@ public class ImageActivity extends AppCompatActivity {
 
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public class SelectAllReply extends AsyncTask<Void, Void, Void> {
-        private ReplyDao replyDao;
+            private ReplyDao replyDao;
 
         public SelectAllReply(ReplyDao replyDao){
-            this.replyDao = replyDao;
-        }
+                this.replyDao = replyDao;
+            }
 
-        @Override // 백그라운드작업(메인스레드 X)
-        protected Void doInBackground(Void... voids) {
-            replyList = new ArrayList<ReplyVo>(replyDao.getAll(contentId));
-            return null;
-        }
+            @Override // 백그라운드작업(메인스레드 X)
+            protected Void doInBackground(Void... voids) {
+                replyList = new ArrayList<ReplyVo>(replyDao.getAll(contentId));
+                return null;
+            }
 
         @Override
         protected void onPostExecute(Void aVoid) {

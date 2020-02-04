@@ -74,7 +74,7 @@ public class VideoActivity extends YouTubeBaseActivity{
         Log.d("test","videoActivity시작"+user);
         profile = intent.getStringExtra("profile");
 
-        Log.d("test","videoVo의 Hashcode : "+videoVo.toString().hashCode());
+               Log.d("test","videoVo의 Hashcode : "+videoVo.toString().hashCode());
         title = videoVo.getTitle();
         thumbnail = videoVo.getThumbnail();
         url = videoVo.getUrl();

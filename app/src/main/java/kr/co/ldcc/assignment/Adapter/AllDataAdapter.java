@@ -49,13 +49,13 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         iv_thumbnail = itemView.findViewById(R.id.alldata_thumbnail);
 
         itemView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                    itemView.getParent().getParent().requestDisallowInterceptTouchEvent(false);
-                else
-                    itemView.getParent().getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_UP)
+                            itemView.getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                        else
+                            itemView.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                        return false;
 
             }
         });
