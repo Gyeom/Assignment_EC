@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Vo;
+package kr.co.ldcc.assignment.vo;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

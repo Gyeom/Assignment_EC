@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Fragment;
+package kr.co.ldcc.assignment.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

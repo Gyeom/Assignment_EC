@@ -1,11 +1,11 @@
-package kr.co.ldcc.assignment.Adapter;
+package kr.co.ldcc.assignment.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import kr.co.ldcc.assignment.Fragment.BookmarkFragment;
-import kr.co.ldcc.assignment.Fragment.MainFragment;
+import kr.co.ldcc.assignment.fragment.BookmarkFragment;
+import kr.co.ldcc.assignment.fragment.MainFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 

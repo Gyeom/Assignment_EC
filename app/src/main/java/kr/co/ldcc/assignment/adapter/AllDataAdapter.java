@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Adapter;
+package kr.co.ldcc.assignment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import kr.co.ldcc.assignment.Activity.ImageActivity;
-import kr.co.ldcc.assignment.Activity.VideoActivity;
+import kr.co.ldcc.assignment.activity.ImageActivity;
+import kr.co.ldcc.assignment.activity.VideoActivity;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.ImageVo;
-import kr.co.ldcc.assignment.Vo.VideoVo;
+import kr.co.ldcc.assignment.vo.ImageVo;
+import kr.co.ldcc.assignment.vo.VideoVo;
 
 public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHolder> {
 

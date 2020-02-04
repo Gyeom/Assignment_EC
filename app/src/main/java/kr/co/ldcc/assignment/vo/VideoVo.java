@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Vo;
+package kr.co.ldcc.assignment.vo;
 
 import android.os.Parcel;
 import android.os.Parcelable;

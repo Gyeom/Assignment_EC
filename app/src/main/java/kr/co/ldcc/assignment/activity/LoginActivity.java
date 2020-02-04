@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Activity;
+package kr.co.ldcc.assignment.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;

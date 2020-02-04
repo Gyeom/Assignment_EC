@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Adapter;
+package kr.co.ldcc.assignment.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.ReplyVo;
+import kr.co.ldcc.assignment.vo.ReplyVo;
 
 public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> {
 

@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.KakaoAPI;
+package kr.co.ldcc.assignment.kakao;
 
 import android.app.Application;
 import android.content.Context;

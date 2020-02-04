@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Activity;
+package kr.co.ldcc.assignment.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -36,13 +36,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
-import kr.co.ldcc.assignment.Adapter.ImageAdapter;
-import kr.co.ldcc.assignment.Vo.ImageVo;
+import kr.co.ldcc.assignment.adapter.AllDataAdapter;
+import kr.co.ldcc.assignment.adapter.ImageAdapter;
+import kr.co.ldcc.assignment.vo.ImageVo;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Adapter.TabPagerAdapter;
-import kr.co.ldcc.assignment.Adapter.VideoAdapter;
-import kr.co.ldcc.assignment.Vo.VideoVo;
+import kr.co.ldcc.assignment.adapter.TabPagerAdapter;
+import kr.co.ldcc.assignment.adapter.VideoAdapter;
+import kr.co.ldcc.assignment.vo.VideoVo;
 
 public class MainActivity extends AppCompatActivity {
 

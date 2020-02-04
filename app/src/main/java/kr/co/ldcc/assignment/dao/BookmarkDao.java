@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Dao;
+package kr.co.ldcc.assignment.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -6,7 +6,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import kr.co.ldcc.assignment.Vo.BookmarkVo;
+import kr.co.ldcc.assignment.vo.BookmarkVo;
 
 @Dao
 public interface BookmarkDao {

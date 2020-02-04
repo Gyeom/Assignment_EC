@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Fragment;
+package kr.co.ldcc.assignment.fragment;
 
 
 import android.os.Bundle;
@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import kr.co.ldcc.assignment.Activity.MainActivity;
-import kr.co.ldcc.assignment.Adapter.AllDataAdapter;
-import kr.co.ldcc.assignment.Adapter.ImageAdapter;
-import kr.co.ldcc.assignment.Adapter.VideoAdapter;
+import kr.co.ldcc.assignment.activity.MainActivity;
+import kr.co.ldcc.assignment.adapter.AllDataAdapter;
+import kr.co.ldcc.assignment.adapter.ImageAdapter;
+import kr.co.ldcc.assignment.adapter.VideoAdapter;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.ImageVo;
-import kr.co.ldcc.assignment.Vo.VideoVo;
+import kr.co.ldcc.assignment.vo.ImageVo;
+import kr.co.ldcc.assignment.vo.VideoVo;
 
 /**
  * A simple {@link androidx.fragment.app.Fragment} subclass.

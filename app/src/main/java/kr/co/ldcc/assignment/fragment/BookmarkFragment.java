@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.Fragment;
+package kr.co.ldcc.assignment.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.co.ldcc.assignment.Activity.MainActivity;
-import kr.co.ldcc.assignment.Adapter.BookmarkAdapter;
-import kr.co.ldcc.assignment.DB.AppDatabase;
-import kr.co.ldcc.assignment.Dao.BookmarkDao;
+import kr.co.ldcc.assignment.activity.MainActivity;
+import kr.co.ldcc.assignment.adapter.BookmarkAdapter;
+import kr.co.ldcc.assignment.db.AppDatabase;
+import kr.co.ldcc.assignment.dao.BookmarkDao;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BookmarkVo;
+import kr.co.ldcc.assignment.vo.BookmarkVo;
 
 
 public class BookmarkFragment extends Fragment {

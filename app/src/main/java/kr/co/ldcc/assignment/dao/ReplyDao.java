@@ -1,15 +1,13 @@
-package kr.co.ldcc.assignment.Dao;
+package kr.co.ldcc.assignment.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 
 import java.util.List;
 
-import kr.co.ldcc.assignment.Vo.ReplyVo;
+import kr.co.ldcc.assignment.vo.ReplyVo;
 
 @Dao
 public interface ReplyDao {

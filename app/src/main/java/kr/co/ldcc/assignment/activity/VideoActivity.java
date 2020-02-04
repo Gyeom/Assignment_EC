@@ -1,37 +1,42 @@
-package kr.co.ldcc.assignment.Activity;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package kr.co.ldcc.assignment.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
 
-import kr.co.ldcc.assignment.Adapter.ReplyAdapter;
-import kr.co.ldcc.assignment.DB.AppDatabase;
-import kr.co.ldcc.assignment.Dao.BookmarkDao;
-import kr.co.ldcc.assignment.Dao.ReplyDao;
+import kr.co.ldcc.assignment.adapter.ReplyAdapter;
+import kr.co.ldcc.assignment.db.AppDatabase;
+import kr.co.ldcc.assignment.dao.BookmarkDao;
+import kr.co.ldcc.assignment.dao.ReplyDao;
 import kr.co.ldcc.assignment.R;
-import kr.co.ldcc.assignment.Vo.BookmarkVo;
-import kr.co.ldcc.assignment.Vo.ReplyVo;
+import kr.co.ldcc.assignment.vo.BookmarkVo;
+import kr.co.ldcc.assignment.vo.ReplyVo;
+import kr.co.ldcc.assignment.vo.VideoVo;
 
-public class ImageActivity extends AppCompatActivity {
-    private ImageView imageView;
+
+public class VideoActivity extends YouTubeBaseActivity {
+    private YouTubePlayerView youtubeView;
+    private String title;
     private String thumbnail;
+    private String url;
     private String contentId;
     private String datetime;
 
@@ -42,46 +47,69 @@ public class ImageActivity extends AppCompatActivity {
     private YouTubePlayer.OnInitializedListener listener;
 
     //Reply
-    private TextView textViewReplyCount;
+    private TextView TextViewReplyCount;
 
     //recyclerView
     private ArrayList<ReplyVo> replyList;
     private ReplyAdapter replyAdapter;
-    private RecyclerView recyclerViewReply;
+    private RecyclerView RecyclerViewReply;
     private LinearLayoutManager linearLayoutManager;
 
     //Bookmark
     private Button buttonBookmark;
-    private EditText editText;
+    private EditText dialogEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image);
-
-        imageView = (ImageView) findViewById(R.id.imageView);
-        textViewReplyCount = (TextView) findViewById(R.id.textViewReplyCount);
+        setContentView(R.layout.activity_video);
+        TextViewReplyCount = (TextView) findViewById(R.id.textViewReplyCount);
         buttonBookmark = (Button) findViewById(R.id.buttonBookmark);
-
         Intent intent = getIntent();
+        VideoVo videoVo = intent.getParcelableExtra("videoVo");
+
         userId = intent.getStringExtra("userId");
         profile = intent.getStringExtra("profile");
-        thumbnail = intent.getStringExtra("thumbnail");
-        datetime = intent.getStringExtra("datetime");
 
-        contentId = thumbnail.substring(thumbnail.lastIndexOf("/") + 1);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        Glide.with(imageView.getContext()).load(thumbnail).into(imageView);
+        Log.d("test", "videoVo의 Hashcode : " + videoVo.toString().hashCode());
+        title = videoVo.getTitle();
+        thumbnail = videoVo.getThumbnail();
+        url = videoVo.getUrl();
+        datetime = videoVo.getDatetime();
+        contentId = url.substring(url.lastIndexOf("v=") + 2);
+
+        youtubeView = (YouTubePlayerView) findViewById(R.id.youtubeView);
+        listener = new YouTubePlayer.OnInitializedListener() {
+
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                // 비디오 아이디
+                youTubePlayer.loadVideo(contentId);
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+            }
+
+        };
+
+        youtubeView.initialize(contentId, listener);
+
+
+        //relply ArrayList 초기화
+//        replyList = new ArrayList<ReplyVo>();
+
 
         //RecyclerView 관련
-        recyclerViewReply = (RecyclerView) findViewById(R.id.rv_reply);
+        RecyclerViewReply = (RecyclerView) findViewById(R.id.rv_reply);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerViewReply.setLayoutManager(linearLayoutManager);
+        RecyclerViewReply.setLayoutManager(linearLayoutManager);
 
         //디비생성
         db = AppDatabase.getInstance(this);
-        new ImageActivity.SelectAllReply(db.replyDao()).execute();
+        new SelectAllReply(db.replyDao()).execute();
         new SelectBookmark(db.bookmarkDao()).execute();
+
 //        replyList = new ArrayList<ReplyVo>(db.replyDao().getAll());
 //                if(replyAdapter==null){
 //                    replyAdapter = new ReplyAdapter(replyList, user, profile);
@@ -109,8 +137,6 @@ public class ImageActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-
-
     }
 
     public void bookmarkButtonListener(View view) {
@@ -128,7 +154,7 @@ public class ImageActivity extends AppCompatActivity {
         // 다이얼로그를 통해 보여줄 뷰를 생성한다.
         LayoutInflater inflater = getLayoutInflater();
         View v1 = inflater.inflate(R.layout.dialog, null);
-        editText = (EditText) v1.findViewById(R.id.editTextDialog);
+        dialogEditText = (EditText) v1.findViewById(R.id.editTextDialog);
         builder.setView(v1);
 
         builder.setPositiveButton("작성하기", writeButtonClickListener);
@@ -138,7 +164,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void deleteBtnListener(View view) {
-        new DeleteAllReply(db.replyDao()).execute();
+        AsyncTask asyncTask = new DeleteAllReply(db.replyDao()).execute();
 
     }
 
@@ -148,9 +174,10 @@ public class ImageActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             //---------------------------------------------------------
             // Response user selection.
-            AsyncTask asyncTask = new InsertAsyncReply(db.replyDao()).execute(new ReplyVo(userId, editText.getText().toString(), contentId));
+            AsyncTask asyncTask = new InsertAsyncTask(db.replyDao()).execute(new ReplyVo(userId, dialogEditText.getText().toString(), contentId));
         }
     };
+
 
     //메인스레드에서 데이터베이스에 접근할 수 없으므로 AsyncTask를 사용하도록 한다.
     public class SelectAllReply extends AsyncTask<Void, Void, Void> {
@@ -171,11 +198,12 @@ public class ImageActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (replyAdapter == null) {
                 replyAdapter = new ReplyAdapter(replyList, userId, profile);
-                recyclerViewReply.setAdapter(replyAdapter);
+                RecyclerViewReply.setAdapter(replyAdapter);
             } else {
                 replyAdapter.setReplyList(replyList);
+                replyAdapter.notifyDataSetChanged();
             }
-            textViewReplyCount.setText("(" + replyAdapter.getItemCount() + ")");
+            TextViewReplyCount.setText("(" + replyAdapter.getItemCount() + ")");
         }
     }
 
@@ -222,6 +250,8 @@ public class ImageActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             buttonBookmark.setSelected(false);
         }
+
+
     }
 
     public class InsertBookmark extends AsyncTask<Void, Void, Void> {
@@ -233,8 +263,7 @@ public class ImageActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            BookmarkVo bookMarkVo = new BookmarkVo("", thumbnail, "", datetime, userId, contentId);
-            bookmarkDao.insert(bookMarkVo);
+            bookmarkDao.insert(new BookmarkVo(title, thumbnail, url, datetime, userId, contentId));
             return null;
         }
 
@@ -261,7 +290,10 @@ public class ImageActivity extends AppCompatActivity {
             return null;
         }
 
+
         // parameter로 결과값 받아오기 Test (list size get하면 되기 때문에 굳이 이렇게안해도 됨)
+
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -270,7 +302,7 @@ public class ImageActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     replyList.clear();
-                    textViewReplyCount.setText("(" + replyList.size() + ")");
+                    TextViewReplyCount.setText("(" + replyList.size() + ")");
                     replyAdapter.notifyDataSetChanged();
                 }
             });
@@ -278,10 +310,10 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    public class InsertAsyncReply extends AsyncTask<ReplyVo, Void, Void> {
+    public class InsertAsyncTask extends AsyncTask<ReplyVo, Void, Void> {
         private ReplyDao replyDao;
 
-        public InsertAsyncReply(ReplyDao replyDao) {
+        public InsertAsyncTask(ReplyDao replyDao) {
             this.replyDao = replyDao;
         }
 
@@ -299,8 +331,7 @@ public class ImageActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             replyAdapter.notifyDataSetChanged();
-            textViewReplyCount.setText("(" + replyList.size() + ")");
+            TextViewReplyCount.setText("(" + replyList.size() + ")");
         }
     }
-
 }
