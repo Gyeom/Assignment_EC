@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment.kakao;
+package kr.co.ldcc.assignment.api;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,9 +10,9 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
-public class App extends Application {
+public class KakaoApp extends Application {
 
-    private static volatile App instance = null;
+    private static volatile KakaoApp instance = null;
 
     private static class KakaoSDKAdapter extends KakaoAdapter {
         /**
@@ -69,13 +69,13 @@ public class App extends Application {
             return new IApplicationConfig() {
                 @Override
                 public Context getApplicationContext() {
-                    return App.getGlobalApplicationContext();
+                    return KakaoApp.getGlobalApplicationContext();
                 }
             };
         }
     }
 
-    public static App getGlobalApplicationContext() {
+    public static KakaoApp getGlobalApplicationContext() {
         if(instance == null) {
             throw new IllegalStateException("this application does not inherit com.kakao.GlobalApplication");
         }

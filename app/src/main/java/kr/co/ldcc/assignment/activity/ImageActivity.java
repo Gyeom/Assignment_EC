@@ -91,7 +91,7 @@ public class ImageActivity extends AppCompatActivity {
                     replyAdapter = new ReplyAdapter(replyList, user, profile);
                     recyclerViewReply.setAdapter(replyAdapter);
                 }else{
-                    replyAdapter.setReplyList(replyList);
+                    replyAdapter.setReplyVos(replyList);
                 }
 
         //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
@@ -109,7 +109,7 @@ public class ImageActivity extends AppCompatActivity {
                     replyAdapter = new ReplyAdapter(replyList, user, profile);
                     recyclerViewReply.setAdapter(replyAdapter);
                 }else{
-                    replyAdapter.setReplyList(replyList);
+                    replyAdapter.setReplyVos(replyList);
                 }
             }
         });*/
@@ -177,7 +177,7 @@ public class ImageActivity extends AppCompatActivity {
                 replyAdapter = new ReplyAdapter(replyList, userId, profile);
                 recyclerViewReply.setAdapter(replyAdapter);
             } else {
-                replyAdapter.setReplyList(replyList);
+                replyAdapter.setReplyVos(replyList);
             }
             textViewReplyCount.setText("(" + replyAdapter.getItemCount() + ")");
         }
@@ -306,5 +306,4 @@ public class ImageActivity extends AppCompatActivity {
             textViewReplyCount.setText("(" + replyList.size() + ")");
         }
     }
-
 }

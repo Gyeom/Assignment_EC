@@ -20,14 +20,14 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
 
     private String userId;
     private String profile;
-    private ArrayList<ReplyVo> replyList;
+    private ArrayList<ReplyVo> replyVos;
 
-    public void setReplyList(ArrayList<ReplyVo> replyList) {
-        this.replyList = replyList;
+    public void setReplyVos(ArrayList<ReplyVo> replyVos) {
+        this.replyVos = replyVos;
     }
 
-    public ReplyAdapter(ArrayList<ReplyVo> replyList, String userId, String profile) {
-        this.replyList = replyList;
+    public ReplyAdapter(ArrayList<ReplyVo> replyVos, String userId, String profile) {
+        this.replyVos = replyVos;
         this.userId = userId;
         this.profile = profile;
     }
@@ -72,7 +72,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        final ReplyVo replyVo = replyList.get(position);
+        final ReplyVo replyVo = replyVos.get(position);
         holder.textViewUser.setText(userId);
         holder.textViewReplyData.setText(replyVo.getReplyData());
         Glide.with(holder.imageViewProfile.getContext()).load(profile).into(holder.imageViewProfile);
@@ -80,6 +80,6 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return (null != replyList ? replyList.size() : 0);
+        return (null != replyVos ? replyVos.size() : 0);
     }
 }

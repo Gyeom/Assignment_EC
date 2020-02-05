@@ -23,7 +23,7 @@ import kr.co.ldcc.assignment.vo.VideoVo;
 
 public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHolder> {
 
-    private ArrayList<Object> allDataList = null;
+    private ArrayList<Object> allDataVos;
     private String userId;
     private String profile;
 
@@ -55,7 +55,7 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    Object item = allDataList.get(position);
+                    Object item = allDataVos.get(position);
                     Intent intent=null;
                     if(item instanceof ImageVo){
                         final String thumbnail = ((ImageVo) item).getThumbnail_url();
@@ -79,8 +79,8 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    public AllDataAdapter(ArrayList<Object> list, String userId, String profile) {
-        allDataList = list;
+    public AllDataAdapter(ArrayList<Object> allDataVos, String userId, String profile) {
+        this.allDataVos = allDataVos;
         this.userId = userId;
         this.profile = profile;
     }
@@ -100,13 +100,13 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(final AllDataAdapter.ViewHolder holder, final int position) {
-        if (allDataList.get(position) instanceof ImageVo) {
-            final String thumbnail = ((ImageVo) allDataList.get(position)).getThumbnail_url();
+        if (allDataVos.get(position) instanceof ImageVo) {
+            final String thumbnail = ((ImageVo) allDataVos.get(position)).getThumbnail_url();
             Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
             holder.textViewTitle.setText("");
-        } else if (allDataList.get(position) instanceof VideoVo) {
-            final String title = ((VideoVo) allDataList.get(position)).getTitle();
-            final VideoVo videoVo = ((VideoVo) allDataList.get(position));
+        } else if (allDataVos.get(position) instanceof VideoVo) {
+            final String title = ((VideoVo) allDataVos.get(position)).getTitle();
+            final VideoVo videoVo = ((VideoVo) allDataVos.get(position));
             String thumbnail = videoVo.getThumbnail();
             Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌
             holder.textViewTitle.setText(title);
@@ -116,6 +116,6 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return allDataList.size();
+        return allDataVos.size();
     }
 }

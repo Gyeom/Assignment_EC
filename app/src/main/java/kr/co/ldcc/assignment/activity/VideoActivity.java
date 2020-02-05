@@ -117,7 +117,7 @@ public class VideoActivity extends YouTubeBaseActivity {
                     replyAdapter = new ReplyAdapter(replyList, user, profile);
                     recyclerViewReply.setAdapter(replyAdapter);
                 }else{
-                    replyAdapter.setReplyList(replyList);
+                    replyAdapter.setReplyVos(replyList);
                 }
 
         //UI 갱신 (라이브데이터 Observer 이용, 해당 디비값이 변화가생기면 실행됨)
@@ -135,7 +135,7 @@ public class VideoActivity extends YouTubeBaseActivity {
                     replyAdapter = new ReplyAdapter(replyList, user, profile);
                     recyclerViewReply.setAdapter(replyAdapter);
                 }else{
-                    replyAdapter.setReplyList(replyList);
+                    replyAdapter.setReplyVos(replyList);
                 }
             }
         });*/
@@ -202,7 +202,7 @@ public class VideoActivity extends YouTubeBaseActivity {
                 replyAdapter = new ReplyAdapter(replyList, userId, profile);
                 RecyclerViewReply.setAdapter(replyAdapter);
             } else {
-                replyAdapter.setReplyList(replyList);
+                replyAdapter.setReplyVos(replyList);
                 replyAdapter.notifyDataSetChanged();
             }
             TextViewReplyCount.setText("(" + replyAdapter.getItemCount() + ")");
