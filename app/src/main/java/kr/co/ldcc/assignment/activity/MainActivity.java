@@ -20,49 +20,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
-import kr.co.ldcc.assignment.NetRetrofit;
-import kr.co.ldcc.assignment.RetrofitService;
+import kr.co.ldcc.assignment.api.NetRetrofit;
 import kr.co.ldcc.assignment.adapter.AllDataAdapter;
 import kr.co.ldcc.assignment.adapter.ImageAdapter;
-import kr.co.ldcc.assignment.fragment.SubFragment;
+import kr.co.ldcc.assignment.vo.ImageResponse;
 import kr.co.ldcc.assignment.vo.ImageVo;
 import kr.co.ldcc.assignment.R;
 import kr.co.ldcc.assignment.adapter.TabPagerAdapter;
 import kr.co.ldcc.assignment.adapter.VideoAdapter;
-import kr.co.ldcc.assignment.vo.Video;
+import kr.co.ldcc.assignment.vo.VideoResponse;
 import kr.co.ldcc.assignment.vo.VideoVo;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,17 +69,15 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<VideoVo> getVideoVos() {
         return videoVos;
     }
-
     public ArrayList<ImageVo> getImageVos() {
         return imageVos;
     }
-
     public ArrayList<Object> getAllDataVos() {
         return allDataVos;
     }
 
-    String userId;
-    String profile;
+    private String userId;
+    private String profile;
 
     public String getUser() {
         return userId;
@@ -118,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("컨텐츠 목록");
 
-        layoutContainer = (LinearLayout)findViewById(R.id.layoutContainer);
+        layoutContainer = (LinearLayout) findViewById(R.id.layoutContainer);
         layoutContainer.setVisibility(View.INVISIBLE);
 
         // UserInfo
@@ -224,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        while((videoVos==null)||(imageVos==null));
+        while ((videoVos == null) || (imageVos == null)) ;
 
         Collections.sort(allDataVos, new Comparator<Object>() {
             @Override
@@ -246,9 +221,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         for (Object obj : allDataVos) {
-            if (obj.getClass() == VideoVo.class) {
+            if (obj instanceof VideoVo) {
                 Log.d("test", ((VideoVo) obj).getDatetime() + "video");
-            } else if (obj.getClass() == ImageVo.class) {
+            } else if (obj instanceof ImageVo) {
                 Log.d("test", ((ImageVo) obj).getDatetime() + "image");
             }
         }
@@ -267,66 +242,29 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
-
-            Gson gson = new Gson();
+            Call<ImageResponse> call = NetRetrofit.getInstance().getService().getImage("KakaoAK f73ede515a6f7edcb9697b7af164db1d", keyword);
             try {
-                String address = "https://dapi.kakao.com/v2/search/image?query=" + keyword;
-
-                URL url = new URL(address);
-                // 접속
-                URLConnection conn = url.openConnection();
-                // 요청헤더 추가
-                conn.setRequestProperty("Authorization", "KakaoAK f73ede515a6f7edcb9697b7af164db1d");
-
-                // 서버와 연결되어 있는 스트림을 추출한다.
-                InputStream is = conn.getInputStream();
-                InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-                BufferedReader br = new BufferedReader(isr);
-
-                String str = null;
-                StringBuffer buf = new StringBuffer();
-
-                // 읽어온다.
-                do {
-                    str = br.readLine();
-                    if (str != null) {
-                        buf.append(str);
-                    }
-                } while (str != null);
-
-                final String result = buf.toString();
-
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.getJSONArray("documents");
-
-                int index = 0;
-
-                while (index < jsonArray.length()) {
-                    ImageVo imageData = gson.fromJson(jsonArray.get(index).toString(), ImageVo.class);
-                    imageVos.add(imageData);
-                    allDataVos.add(imageData);
-                    index++;
-                }
-                Collections.sort(imageVos, new Comparator<ImageVo>() {
-                    @Override
-                    public int compare(ImageVo o1, ImageVo o2) {
-                        return -1 * o1.getDatetime().compareTo(o2.getDatetime());
-                    }
-                });
-                Log.d("test",imageVos.toString());
-                imageAdapter.setImageVos(imageVos);
-                // UI를 제어하기 위해서 사용
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageAdapter.notifyDataSetChanged();
-                    }
-                });
-            } catch (Exception e) {
+                imageVos = call.execute().body().getDocuments();
+                allDataVos.addAll(imageVos);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+            Collections.sort(imageVos, new Comparator<ImageVo>() {
+                @Override
+                public int compare(ImageVo o1, ImageVo o2) {
+                    return -1 * o1.getDatetime().compareTo(o2.getDatetime());
+                }
+            });
+            Log.d("test", imageVos.toString());
+            imageAdapter.setImageVos(imageVos);
+            // UI를 제어하기 위해서 사용
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageAdapter.notifyDataSetChanged();
+                }
+            });
         }
-
     }
 
     public class VideoSearchAPI extends Thread {
@@ -340,11 +278,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-            Call<Video> call = NetRetrofit.getInstance().getService().getVideo("KakaoAK f73ede515a6f7edcb9697b7af164db1d", keyword);
+            Call<VideoResponse> call = NetRetrofit.getInstance().getService().getVideo("KakaoAK f73ede515a6f7edcb9697b7af164db1d", keyword);
             try {
                 videoVos = call.execute().body().getDocuments();
                 allDataVos.addAll(videoVos);
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             Collections.sort(videoVos, new Comparator<VideoVo>() {
@@ -353,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     return -1 * o1.getDatetime().compareTo(o2.getDatetime());
                 }
             });
-            Log.d("test",videoVos.toString());
+            Log.d("test", videoVos.toString());
             videoAdapter.setVideoVos(videoVos);
 
             // UI를 제어하기 위해서 사용
@@ -364,39 +302,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-//            call.enqueue(new Callback<Video>() {
-//                @Override
-//                public void onResponse(Call<Video> call, Response<Video> response) {
-//                    if (response.isSuccessful()) {
-//                            if (response.isSuccessful()) {
-//                                videoVos = response.body().getDocuments();
-//                                Log.d("test",allDataVos.size()+"zz");
-//                                allDataVos.addAll(response.body().getDocuments());
-//                                Log.d("test",allDataVos.size()+"zz");
-//                                Collections.sort(videoVos, new Comparator<VideoVo>() {
-//                                    @Override
-//                                    public int compare(VideoVo o1, VideoVo o2) {
-//                                        return -1 * o1.getDatetime().compareTo(o2.getDatetime());
-//                                    }
-//                                });
-//
-//                                videoAdapter.setVideoVos(videoVos);
-//
-//                                // UI를 제어하기 위해서 사용
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        videoAdapter.notifyDataSetChanged();
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    }
-//                @Override
-//                public void onFailure(Call<Video> call, Throwable t) {
-//
-//                }
-//            });
+// Call 비동기 처리 방법
+/*            call.enqueue(new Callback<VideoResponse>() {
+                @Override
+                public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
+                    if (response.isSuccessful()) {
+                            if (response.isSuccessful()) {
+                                videoVos = response.body().getDocuments();
+                                Log.d("test",allDataVos.size()+"zz");
+                                allDataVos.addAll(response.body().getDocuments());
+                                Log.d("test",allDataVos.size()+"zz");
+                                Collections.sort(videoVos, new Comparator<VideoVo>() {
+                                    @Override
+                                    public int compare(VideoVo o1, VideoVo o2) {
+                                        return -1 * o1.getDatetime().compareTo(o2.getDatetime());
+                                    }
+                                });
+
+                                videoAdapter.setVideoVos(videoVos);
+
+                                // UI를 제어하기 위해서 사용
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        videoAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                @Override
+                public void onFailure(Call<VideoResponse> call, Throwable t) {
+
+                }
+            });*/
 
         }
 

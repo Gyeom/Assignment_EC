@@ -1,4 +1,4 @@
-package kr.co.ldcc.assignment;
+package kr.co.ldcc.assignment.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
