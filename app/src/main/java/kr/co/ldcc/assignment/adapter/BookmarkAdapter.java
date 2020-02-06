@@ -68,11 +68,9 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.ViewHo
         final String thumbnail = (bookmarkList.get(position)).getThumbnail();
         final String datetime = bookmarkList.get(position).getDatetime();
         if (bookmarkList.get(position).getTitle() == null) {
-//            thumbnail = (bookmarkList.get(position)).getThumbnail();
             holder.textViewTitle.setText("");
         } else {
             title = (bookmarkList.get(position)).getTitle();
-//            thumbnail = (bookmarkList.get(position)).getThumbnail();
             holder.textViewTitle.setText(title);
         }
         Glide.with(holder.imageViewThumbnail.getContext()).load(thumbnail).into(holder.imageViewThumbnail); //Glide을 이용해서 이미지뷰에 url에 있는 이미지를 세팅해줌

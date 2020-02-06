@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:background="#000000"
         android:gravity="center_vertical"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shadowColor="#FFFFFF"
-            android:text="TextView"
+            android:text="textView"
             android:textColor="#FFFFFF"
             android:textStyle="italic" />
     </LinearLayout>

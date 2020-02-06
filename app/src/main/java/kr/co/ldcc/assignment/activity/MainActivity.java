@@ -69,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<VideoVo> getVideoVos() {
         return videoVos;
     }
+
     public ArrayList<ImageVo> getImageVos() {
         return imageVos;
     }
+
     public ArrayList<Object> getAllDataVos() {
         return allDataVos;
     }

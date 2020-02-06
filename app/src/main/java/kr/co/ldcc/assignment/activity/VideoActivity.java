@@ -95,11 +95,6 @@ public class VideoActivity extends YouTubeBaseActivity {
 
         youtubeView.initialize(contentId, listener);
 
-
-        //relply ArrayList 초기화
-//        replyList = new ArrayList<ReplyVo>();
-
-
         //RecyclerView 관련
         RecyclerViewReply = (RecyclerView) findViewById(R.id.rv_reply);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

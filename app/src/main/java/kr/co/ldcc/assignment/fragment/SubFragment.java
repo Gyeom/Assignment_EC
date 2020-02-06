@@ -58,18 +58,20 @@ public class SubFragment extends androidx.fragment.app.Fragment {
         LinearLayoutManager linearLayoutManager;
         GridLayoutManager gridLayoutManager;
         ArrayList<Object> allDataVos;
+        MainActivity activity = (MainActivity)getActivity();
 
         switch (getTag()) {
             case "buttonVideoGrid":
                 // Inflate the layout for this fragment
                 v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
-                Log.d("test",getTag());
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
                 recyclerView =(RecyclerView) v.findViewById(R.id.recyclerViewGrid);
                 gridLayoutManager = new GridLayoutManager(getActivity(),3);
                 recyclerView.setLayoutManager(gridLayoutManager);
-                ArrayList<VideoVo> videoVos = ((MainActivity)getActivity()).getVideoVos();
-                videoAdapter = new VideoAdapter(videoVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
+                ArrayList<VideoVo> videoVos = activity.getVideoVos();
+                videoAdapter = new VideoAdapter(videoVos, activity.getUser(), activity.getProfile());
+                activity.setVideoAdapter(videoAdapter);
+
                 // 리사이클러뷰에 VideoAdapter 객체 지정.
                 recyclerView.setAdapter(videoAdapter);
                 break;
@@ -82,11 +84,9 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
                 recyclerView.setLayoutManager(linearLayoutManager);
-                videoVos = ((MainActivity)getActivity()).getVideoVos();
-                videoAdapter = new VideoAdapter(videoVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
-                ((MainActivity)getActivity()).setVideoAdapter(videoAdapter);
-                Log.d("test","1");
-                // 리사이클러뷰에 VideoAdapter 객체 지정.
+                videoVos = activity.getVideoVos();
+                videoAdapter = new VideoAdapter(videoVos, activity.getUser(), activity.getProfile());
+                activity.setVideoAdapter(videoAdapter);
                 recyclerView.setAdapter(videoAdapter) ;
 
 
@@ -102,9 +102,9 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 recyclerView.setLayoutManager(gridLayoutManager);
 
                 // 리사이클러뷰에 VideoAdapter 객체 지정.
-                ArrayList<ImageVo> imageVos = ((MainActivity)getActivity()).getImageVos();
-                imageAdapter = new ImageAdapter(imageVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
-                ((MainActivity)getActivity()).setImageAdapter(imageAdapter);
+                ArrayList<ImageVo> imageVos = activity.getImageVos();
+                imageAdapter = new ImageAdapter(imageVos, activity.getUser(), activity.getProfile());
+                activity.setImageAdapter(imageAdapter);
                 recyclerView.setAdapter(imageAdapter) ;
                 break;
             case "buttonImageLinear":
@@ -116,12 +116,11 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 recyclerView.setLayoutManager(linearLayoutManager) ;
 
-                imageVos = ((MainActivity)getActivity()).getImageVos();
-                imageAdapter = new ImageAdapter(imageVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
+                imageVos = activity.getImageVos();
+                imageAdapter = new ImageAdapter(imageVos, activity.getUser(), activity.getProfile());
                 // 리사이클러뷰에 mageAdapter 객체 지정.
-                ((MainActivity)getActivity()).setImageAdapter(imageAdapter);
+                activity.setImageAdapter(imageAdapter);
                 recyclerView.setAdapter(imageAdapter) ;
-                Log.d("test","1");
                 break;
             case "buttonAllDataGrid":
                 v =inflater.inflate(R.layout.fragment_recycler_grid,container,false);
@@ -132,9 +131,9 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 recyclerView.setLayoutManager(gridLayoutManager);
 
                 // 리사이클러뷰에 VideoAdapter 객체 지정.
-                allDataVos = ((MainActivity)getActivity()).getAllDataVos();
-                allDataAdapter = new AllDataAdapter(allDataVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
-                ((MainActivity)getActivity()).setAllDataAdapter(allDataAdapter);
+                allDataVos = activity.getAllDataVos();
+                allDataAdapter = new AllDataAdapter(allDataVos,activity.getUser(),activity.getProfile());
+                activity.setAllDataAdapter(allDataAdapter);
                 recyclerView.setAdapter(allDataAdapter);
                 break;
             case "buttonAllDataLinear":
@@ -148,11 +147,10 @@ public class SubFragment extends androidx.fragment.app.Fragment {
                 recyclerView.setLayoutManager(linearLayoutManager) ;
 
                 // 리사이클러뷰에 AllAdapter 객체 지정.
-                allDataVos = ((MainActivity)getActivity()).getAllDataVos();
-                allDataAdapter = new AllDataAdapter(allDataVos,((MainActivity)getActivity()).getUser(),((MainActivity)getActivity()).getProfile());
-                ((MainActivity)getActivity()).setAllDataAdapter(allDataAdapter);
+                allDataVos = activity.getAllDataVos();
+                allDataAdapter = new AllDataAdapter(allDataVos, activity.getUser(), activity.getProfile());
+                activity.setAllDataAdapter(allDataAdapter);
                 recyclerView.setAdapter(allDataAdapter) ;
-                Log.d("test","1");
                 break;
         }
         return v;

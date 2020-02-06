@@ -12,6 +12,7 @@ public interface RetrofitService {
     Call<VideoResponse>
     getVideo(@Header("Authorization") String authorization,
             @Query("query") String query);
+
     @GET("/v2/search/image")
     Call<ImageResponse>
     getImage(@Header("Authorization") String authorization,

@@ -35,7 +35,6 @@ public class MainFragment extends Fragment {
         buttonImageLinear = (Button)v.findViewById(R.id.buttonImageLinear);
         buttonAllDataGrid = (Button)v.findViewById(R.id.buttonAllDataGrid);
         buttonAllDataLinear = (Button)v.findViewById(R.id.buttonAllDataLinear);
-        Log.d("test","0");
         showLayout(buttonVideoLinear);
         showLayout(buttonImageLinear);
         showLayout(buttonAllDataLinear);
