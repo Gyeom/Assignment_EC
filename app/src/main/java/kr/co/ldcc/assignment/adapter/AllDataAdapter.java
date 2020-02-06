@@ -27,6 +27,10 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
     private String userId;
     private String profile;
 
+    public void setAllDataVos(ArrayList<Object> allDataVos) {
+        this.allDataVos = allDataVos;
+    }
+
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
@@ -116,6 +120,6 @@ public class AllDataAdapter extends RecyclerView.Adapter<AllDataAdapter.ViewHold
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return allDataVos.size();
+        return allDataVos==null?0:allDataVos.size();
     }
 }

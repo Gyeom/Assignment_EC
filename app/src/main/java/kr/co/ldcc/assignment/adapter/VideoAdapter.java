@@ -27,6 +27,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private String userId;
     private String profile;
 
+    public void setVideoVos(ArrayList<VideoVo> videoVos) {
+        this.videoVos = videoVos;
+    }
+
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
@@ -99,6 +103,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return videoVos.size();
+        return (videoVos==null)?0:videoVos.size();
     }
 }

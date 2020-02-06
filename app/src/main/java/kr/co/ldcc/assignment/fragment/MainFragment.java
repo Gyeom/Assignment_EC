@@ -1,6 +1,7 @@
 package kr.co.ldcc.assignment.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class MainFragment extends Fragment {
         buttonImageLinear = (Button)v.findViewById(R.id.buttonImageLinear);
         buttonAllDataGrid = (Button)v.findViewById(R.id.buttonAllDataGrid);
         buttonAllDataLinear = (Button)v.findViewById(R.id.buttonAllDataLinear);
+        Log.d("test","0");
         showLayout(buttonVideoLinear);
         showLayout(buttonImageLinear);
         showLayout(buttonAllDataLinear);

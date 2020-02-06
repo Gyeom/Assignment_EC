@@ -24,6 +24,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private String profile;
     private ArrayList<ImageVo> imageVos;
 
+    public void setImageVos(ArrayList<ImageVo> imageVos) {
+        this.imageVos = imageVos;
+    }
+
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewThumbnail;
@@ -93,6 +97,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return imageVos.size();
+        return (imageVos==null)?0:imageVos.size();
     }
 }
